@@ -52,9 +52,9 @@ class InventarioModel {
     }
 
     // Actualizar la cantidad de un registro de inventario
-    public function actualizarInventario($codproducto, $idproveedor, $cantidad) {
-        $query = mysqli_query($this->conexion, "UPDATE inventario SET cantidad = cantidad + $cantidad 
-                                                WHERE codproducto = '$codproducto' AND idproveedor = '$idproveedor'");
+    public function actualizarCantidadInventario($id , $cantidad) {
+        $query = mysqli_query($this->conexion, "UPDATE inventario SET cantidad =  $cantidad 
+                                                WHERE idinventario = '$id'");
         return $query;
     }
 

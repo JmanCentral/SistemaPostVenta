@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         minLength: 3,
         source: function (request, response) {
             $.ajax({
-                url: "ajax.php",
+                url: "controllers/VentaController.php",
                 dataType: "json",
                 data: {
                     q: request.term
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         minLength: 3,
         source: function (request, response) {
             $.ajax({
-                url: "ajax.php",
+                url: "controllers/VentaController.php",
                 dataType: "json",
                 data: {
                     pro: request.term
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'No hay producto ',
+                title: 'No hay producto para generar la venta',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -123,11 +123,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 })
 
+
+function mostrarAlertaPermisos() {
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'No tienes permisos',
+        timer: 2500
+    });
+}
+
+
+
 function listar() {
     let html = '';
     let detalle = 'detalle';
     $.ajax({
-        url: "ajax.php",
+        url: "controllers/VentaController.php",
         dataType: "json",
         data: {
             detalle: detalle

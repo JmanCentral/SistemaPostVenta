@@ -9,24 +9,7 @@
             <div class="card-body">
                 <form action="" method="post">
                     <?php echo isset($data['alert']) ? $data['alert'] : ''; ?>
-                    <div class="form-group">
-                        <label for="producto">Producto</label>
-                        <input type="text" class="form-control" value="<?php echo $data['data_inventario']['producto']; ?>" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="proveedor">Proveedor</label>
-                        <?php
-                        // Buscar el nombre del proveedor en el array de proveedores
-                        $nombreProveedor = "Proveedor no encontrado";
-                        foreach ($data['proveedores'] as $proveedor) {
-                            if ($proveedor['id'] == $data['data_inventario']['idproveedor']) {
-                                $nombreProveedor = $proveedor['nombre']; // Ajusta 'nombre' según la estructura de tu array
-                                break;
-                            }
-                        }
-                        ?>
-                        <input type="text" class="form-control" value="<?php echo $nombreProveedor; ?>" disabled>
-                    </div>
+                    
                     <div class="form-group">
                         <label for="cantidad">Cantidad</label>
                         <input type="number" placeholder="Ingrese cantidad" name="cantidad" id="cantidad" class="form-control" value="<?php echo $data['data_inventario']['cantidad']; ?>">

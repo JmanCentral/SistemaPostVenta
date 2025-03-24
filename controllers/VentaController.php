@@ -16,7 +16,7 @@ class VentaController {
         $existe = $this->ventaModel->verificarPermisos($id_user, $permiso);
 
         if (empty($existe) && $id_user != 1) {
-            header("Location: permisos.php");
+            header("Location: index.php?action=denegado");
             exit();
         }
 

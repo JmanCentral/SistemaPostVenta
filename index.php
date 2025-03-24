@@ -21,11 +21,15 @@ $routes = [
     'eliminar_proveedor' => ['controller' => 'ProveedorController', 'method' => 'eliminar'], 
     'productos' => ['controller' => 'ProductoController', 'method' => 'index'],
     'editar_producto' => ['controller' => 'ProductoController', 'method' => 'editar'],
+    'eliminar_producto' => ['controller' => 'ProductoController', 'method' => 'eliminar'],
     'inventario' => ['controller' => 'InventarioController', 'method' => 'index'], // Mostrar inventario
     'editar_inventario' => ['controller' => 'InventarioController', 'method' => 'editar'], // Editar inventario
     'eliminar_inventario' => ['controller' => 'InventarioController', 'method' => 'eliminar'],
     'configuracion' => ['controller' => 'ConfiguracionController', 'method' => 'index'],
+    'permisos' => ['controller' => 'PermisoController', 'method' => 'index'],
+    'editar_permisos' => ['controller' => 'PermisoController', 'method' => 'editarPermisos'],
     'nueva_venta' => ['controller' => 'VentaController', 'method' => 'index'],
+    'denegado' => ['controller' => 'DenegacionController', 'method' => 'index'],
 ];
 
 // Verificar si la ruta existe

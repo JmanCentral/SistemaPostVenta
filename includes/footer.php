@@ -1,17 +1,6 @@
 </div>
 </main>
-<footer class="py-4 bg-light mt-auto">
-    <div class="container-fluid">
-        <div class="d-flex align-items-center justify-content-between small">
-            <div class="text-muted">Copyright &copy; Your Website 2020</div>
-            <div>
-                <a href="#">Privacy Policy</a>
-                &middot;
-                <a href="#">Terms &amp; Conditions</a>
-            </div>
-        </div>
-    </div>
-</footer>
+
 </div>
 </div>
 <div id="nuevo_pass" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
@@ -47,7 +36,7 @@
 <script src="assets/js/sweetalert2.all.min.js"></script>
 <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>
 <script src="assets/js/Chart.bundle.min.js"></script>
-<script src="assets/js/funciones2.0.js"></script>
+<script src="assets/js/funcionesprueba.js"></script>
 </body>
 
 </html>

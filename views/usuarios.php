@@ -66,12 +66,17 @@
                         <td><?php echo ($data['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?></td>
                         <td>
                             <?php if ($data['estado'] == 1) : ?>
-                                <!-- Enlaces para editar y eliminar deben apuntar al controlador -->
+                                <!-- Botón para editar -->
                                 <a href="index.php?action=editar_usuario&id=<?php echo $data['idusuario']; ?>" class="btn btn-warning">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
+                                <!-- Botón para eliminar -->
                                 <a href="index.php?action=eliminar_usuario&id=<?php echo $data['idusuario']; ?>" class="btn btn-danger">
                                     <i class="fas fa-trash"></i> Eliminar
+                                </a>
+                                <!-- Botón para permisos -->
+                                <a href="index.php?action=editar_permisos&id=<?php echo $data['idusuario']; ?>" class="btn btn-info">
+                                    <i class="fas fa-key"></i> Permisos
                                 </a>
                             <?php endif; ?>
                         </td>

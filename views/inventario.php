@@ -1,5 +1,6 @@
 <?php include_once "includes/header.php"; ?>
 
+
 <button class="btn btn-primary mb-2" type="button" data-toggle="modal" data-target="#nuevo_inventario">
     <i class="fas fa-plus"></i> Nuevo Registro de Inventario
 </button>
@@ -16,6 +17,7 @@
                 <th>Proveedor</th>
                 <th>Cantidad</th>
                 <th>Fecha de Ingreso</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -29,10 +31,15 @@
                         <td><?php echo $row['cantidad']; ?></td>
                         <td><?php echo $row['fecha_ingreso']; ?></td>
                         <td>
-                            <a href="index.php?action=editar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-success">
+                            <?php echo ($row['estado'] == 1) 
+                                ? '<span class="badge badge-pill badge-success">Activo</span>' 
+                                : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?>
+                        </td>
+                        <td>
+                            <a href="index.php?action=editar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-success btn-sm">
                                 <i class="fas fa-edit"></i> Editar
                             </a>
-                            <a href="index.php?action=eliminar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-danger">
+                            <a href="index.php?action=eliminar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-danger btn-sm">
                                 <i class="fas fa-trash"></i> Eliminar
                             </a>
                         </td>
@@ -40,7 +47,7 @@
                 <?php endwhile; ?>
             <?php else : ?>
                 <tr>
-                    <td colspan="6">No se encontraron registros de inventario.</td>
+                    <td colspan="7" class="text-center">No se encontraron registros de inventario.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

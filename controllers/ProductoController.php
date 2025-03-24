@@ -16,7 +16,7 @@ class ProductoController {
         $existe = $this->productoModel->verificarPermisos($id_user, $permiso);
 
         if (empty($existe) && $id_user != 1) {
-            header("Location: permisos.php");
+            header("Location: index.php?action=denegado");
             exit();
         }
 
