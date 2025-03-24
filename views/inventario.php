@@ -1,12 +1,10 @@
 <?php include_once "includes/header.php"; ?>
 
-<!-- Botón para abrir el modal de nuevo inventario -->
 <button class="btn btn-primary mb-2" type="button" data-toggle="modal" data-target="#nuevo_inventario">
     <i class="fas fa-plus"></i> Nuevo Registro de Inventario
 </button>
 
-<!-- Mostrar alertas -->
-<?php echo isset($alert) ? $alert : ''; ?>
+<?php echo isset($data['alert']) ? $data['alert'] : ''; ?>
 
 <!-- Tabla de inventario -->
 <div class="table-responsive">
@@ -18,35 +16,31 @@
                 <th>Proveedor</th>
                 <th>Cantidad</th>
                 <th>Fecha de Ingreso</th>
-                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($inventario)) : ?>
-                <?php while ($data = mysqli_fetch_assoc($inventario)) : ?>
+            <?php if (!empty($data['inventario'])) : ?>
+                <?php while ($row = mysqli_fetch_assoc($data['inventario'])) : ?>
                     <tr>
-                        <td><?php echo $data['idinventario']; ?></td>
-                        <td><?php echo $data['producto']; ?></td>
-                        <td><?php echo $data['proveedor']; ?></td>
-                        <td><?php echo $data['cantidad']; ?></td>
-                        <td><?php echo $data['fecha_ingreso']; ?></td>
-                        <td><?php echo ($data['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?></td>
+                        <td><?php echo $row['idinventario']; ?></td>
+                        <td><?php echo $row['producto']; ?></td>
+                        <td><?php echo $row['proveedor']; ?></td>
+                        <td><?php echo $row['cantidad']; ?></td>
+                        <td><?php echo $row['fecha_ingreso']; ?></td>
                         <td>
-                            <?php if ($data['estado'] == 1) : ?>
-                                <a href="index.php?action=editar_inventario&id=<?php echo $data['idinventario']; ?>" class="btn btn-success">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
-                                <a href="index.php?action=eliminar_inventario&id=<?php echo $data['idinventario']; ?>" class="btn btn-danger">
-                                    <i class="fas fa-trash"></i> Eliminar
-                                </a>
-                            <?php endif; ?>
+                            <a href="index.php?action=editar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-success">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a href="index.php?action=eliminar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
                         </td>
                     </tr>
                 <?php endwhile; ?>
             <?php else : ?>
                 <tr>
-                    <td colspan="7">No se encontraron registros de inventario.</td>
+                    <td colspan="6">No se encontraron registros de inventario.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
@@ -69,24 +63,18 @@
                         <label for="codproducto">Producto</label>
                         <select name="codproducto" id="codproducto" class="form-control" required>
                             <option value="">Seleccione un producto</option>
-                            <?php
-                            $query_productos = mysqli_query($conexion, "SELECT * FROM producto WHERE estado = 1");
-                            while ($producto = mysqli_fetch_assoc($query_productos)) {
-                                echo '<option value="' . $producto['codproducto'] . '">' . $producto['descripcion'] . '</option>';
-                            }
-                            ?>
+                            <?php while ($producto = mysqli_fetch_assoc($data['productos'])) : ?>
+                                <option value="<?php echo $producto['codproducto']; ?>"><?php echo $producto['descripcion']; ?></option>
+                            <?php endwhile; ?>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="idproveedor">Proveedor</label>
                         <select name="idproveedor" id="idproveedor" class="form-control" required>
                             <option value="">Seleccione un proveedor</option>
-                            <?php
-                            $query_proveedores = mysqli_query($conexion, "SELECT * FROM proveedores WHERE estado = 1");
-                            while ($proveedor = mysqli_fetch_assoc($query_proveedores)) {
-                                echo '<option value="' . $proveedor['idproveedor'] . '">' . $proveedor['nombre'] . '</option>';
-                            }
-                            ?>
+                            <?php while ($proveedor = mysqli_fetch_assoc($data['proveedores'])) : ?>
+                                <option value="<?php echo $proveedor['idproveedor']; ?>"><?php echo $proveedor['nombre']; ?></option>
+                            <?php endwhile; ?>
                         </select>
                     </div>
                     <div class="form-group">

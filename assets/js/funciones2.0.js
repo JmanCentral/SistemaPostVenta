@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
     })
-    $("#nom_cliente").autocomplete({
+    $("#identificacion_cliente").autocomplete({
         minLength: 3,
         source: function (request, response) {
             $.ajax({
@@ -31,7 +31,9 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         select: function (event, ui) {
             $("#idcliente").val(ui.item.id);
+            $("#identificacion_cliente").val(ui.item.identificacion);
             $("#nom_cliente").val(ui.item.label);
+            $("#apellido_cliente").val(ui.item.apellido);
             $("#tel_cliente").val(ui.item.telefono);
             $("#dir_cliente").val(ui.item.direccion);
         }
@@ -68,12 +70,14 @@ document.addEventListener("DOMContentLoaded", function () {
             var action = 'procesarVenta';
             var id = $('#idcliente').val();
             var tipo_pago = $('#tipo_pago').val();
+            var fecha_venta = $('#fecha_venta').val();
             $.ajax({
                 url: 'ajax.php',
                 async: true,
                 data: {
                     procesarVenta: action,
                     tipo_pago: tipo_pago,
+                    fecha_venta: fecha_venta,    
                     id: id
                 },
                 success: function (response) {

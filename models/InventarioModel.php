@@ -16,6 +16,28 @@ class InventarioModel {
         return ($sql) ? mysqli_fetch_all($sql, MYSQLI_ASSOC) : []; 
     }
 
+    public function verificarProducto($codproducto) {
+        $query = mysqli_query($this->conexion, "SELECT * FROM producto WHERE codproducto = '$codproducto' AND estado = 1");
+        return mysqli_fetch_assoc($query);
+    }
+
+    // Verifica si un proveedor existe
+    public function verificarProveedor($idproveedor) {
+        $query = mysqli_query($this->conexion, "SELECT * FROM proveedores WHERE idproveedor = '$idproveedor' AND estado = 1");
+        return mysqli_fetch_assoc($query);
+    }
+
+    public function obtenerProductos() {
+        $query = mysqli_query($this->conexion, "SELECT * FROM producto WHERE estado = 1");
+        return $query;
+    }
+
+    // Obtener todos los proveedores activos
+    public function obtenerProveedores() {
+        $query = mysqli_query($this->conexion, "SELECT * FROM proveedores WHERE estado = 1");
+        return $query;
+    }
+
     // Verificar si ya existe un registro de inventario para un producto y proveedor
     public function verificarInventario($codproducto, $idproveedor) {
         $query = mysqli_query($this->conexion, "SELECT * FROM inventario WHERE codproducto = '$codproducto' AND idproveedor = '$idproveedor'");

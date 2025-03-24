@@ -24,6 +24,8 @@ $routes = [
     'inventario' => ['controller' => 'InventarioController', 'method' => 'index'], // Mostrar inventario
     'editar_inventario' => ['controller' => 'InventarioController', 'method' => 'editar'], // Editar inventario
     'eliminar_inventario' => ['controller' => 'InventarioController', 'method' => 'eliminar'],
+    'configuracion' => ['controller' => 'ConfiguracionController', 'method' => 'index'],
+    'nueva_venta' => ['controller' => 'VentaController', 'method' => 'index'],
 ];
 
 // Verificar si la ruta existe

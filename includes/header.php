@@ -42,11 +42,11 @@ if (empty($_SESSION['active'])) {
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <a class="nav-link" href="ventas.php">
+                        <a class="nav-link" href="index.php?action=nueva_venta">
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
                             Nueva venta
                         </a>
-                        <a class="nav-link" href="config.php">
+                        <a class="nav-link" href="index.php?action=configuracion">
                             <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
                             Configuración
                         </a>
