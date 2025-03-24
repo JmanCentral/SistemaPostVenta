@@ -15,11 +15,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
     })
-    $("#nom_cliente").autocomplete({
+    $("#identificacion_cliente").autocomplete({
         minLength: 3,
         source: function (request, response) {
             $.ajax({
-                url: "ajax.php",
+                url: "index.php?action=buscar_cliente",
                 dataType: "json",
                 data: {
                     q: request.term
@@ -30,8 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         },
         select: function (event, ui) {
-            $("#idcliente").val(ui.item.id);
-            $("#nom_cliente").val(ui.item.label);
+            $("#id_cliente").val(ui.item.id);
+            $("#identificacion_cliente").val(ui.item.identificacion);
+            $("#nom_cliente").val(ui.item.nombre);
+            $("#apellido_cliente").val(ui.item.apellido);
             $("#tel_cliente").val(ui.item.telefono);
             $("#dir_cliente").val(ui.item.direccion);
         }
@@ -40,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         minLength: 3,
         source: function (request, response) {
             $.ajax({
-                url: "ajax.php",
+                url: "index.php?action=buscar_producto",
                 dataType: "json",
                 data: {
                     pro: request.term
@@ -66,14 +68,16 @@ document.addEventListener("DOMContentLoaded", function () {
         var rows = $('#tblDetalle tr').length;
         if (rows > 2) {
             var action = 'procesarVenta';
-            var id = $('#idcliente').val();
+            var id = $('#id_cliente').val();
             var tipo_pago = $('#tipo_pago').val();
+            var fecha_venta = $('#fecha_venta').val();
             $.ajax({
-                url: 'ajax.php',
+                url: 'index.php?action=procesar_venta',
                 async: true,
                 data: {
                     procesarVenta: action,
                     tipo_pago: tipo_pago,
+                    fecha_venta: fecha_venta,    
                     id: id
                 },
                 success: function (response) {
@@ -106,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }else{
             Swal.fire({
-                position: 'top-end',
+                position: 'center',
                 icon: 'warning',
                 title: 'No hay producto para generar la venta',
                 showConfirmButton: false,
@@ -119,11 +123,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 })
 
+
+function mostrarAlertaPermisos() {
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'No tienes permisos',
+        timer: 2500
+    });
+}
+
+
+
 function listar() {
     let html = '';
     let detalle = 'detalle';
     $.ajax({
-        url: "ajax.php",
+        url: "index.php?action=obtener_detalle",
         dataType: "json",
         data: {
             detalle: detalle
@@ -153,7 +169,7 @@ function registrarDetalle(e, id, cant, precio) {
             if (id != null) {
                 let action = 'regDetalle';
                 $.ajax({
-                    url: "ajax.php",
+                    url: "index.php?action=agregar_producto",
                     type: 'POST',
                     dataType: "json",
                     data: {
@@ -165,7 +181,7 @@ function registrarDetalle(e, id, cant, precio) {
                     success: function (response) {
                         if (response == 'registrado') {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'center',
                                 icon: 'success',
                                 title: 'Producto Ingresado',
                                 showConfirmButton: false,
@@ -176,7 +192,7 @@ function registrarDetalle(e, id, cant, precio) {
                             listar();
                         } else if (response == 'actualizado') {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'center',
                                 icon: 'success',
                                 title: 'Producto Actualizado',
                                 showConfirmButton: false,
@@ -203,7 +219,7 @@ function registrarDetalle(e, id, cant, precio) {
 function deleteDetalle(id) {
     let detalle = 'Eliminar'
     $.ajax({
-        url: "ajax.php",
+        url: "index.php?action=eliminar_detalle",
         data: {
             id: id,
             delete_detalle: detalle
@@ -212,7 +228,7 @@ function deleteDetalle(id) {
             console.log(response);
             if (response == 'restado') {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Producto Descontado',
                     showConfirmButton: false,
@@ -223,7 +239,7 @@ function deleteDetalle(id) {
                 listar();
             } else if (response == 'ok') {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Producto Eliminado',
                     showConfirmButton: false,
@@ -267,7 +283,14 @@ function calcular() {
     filas[1].textContent = total.toFixed(2);
 }
 function generarPDF(cliente, id_venta) {
-    url = 'pdf/generar.php?cl=' + cliente + '&v=' + id_venta;
+    // Validar que los parámetros no sean undefined
+    if (cliente === undefined || id_venta === undefined) {
+        console.error('Parámetros no definidos para generar PDF');
+        return;
+    }
+    
+    // Usar la ruta del enrutador
+    url = 'index.php?action=generar&cl=' + cliente + '&v=' + id_venta;
     window.open(url, '_blank');
 }
 if (document.getElementById("sales-chart")) {

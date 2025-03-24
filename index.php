@@ -30,6 +30,17 @@ $routes = [
     'editar_permisos' => ['controller' => 'PermisoController', 'method' => 'editarPermisos'],
     'nueva_venta' => ['controller' => 'VentaController', 'method' => 'index'],
     'denegado' => ['controller' => 'DenegacionController', 'method' => 'index'],
+    'buscar_cliente' => ['controller' => 'VentaController', 'method' => 'buscarCliente'],
+    'buscar_producto' => ['controller' => 'VentaController', 'method' => 'buscarProducto'],
+    'obtener_detalle' => ['controller' => 'VentaController', 'method' => 'obtenerDetalle'],
+    'eliminar_detalle' => ['controller' => 'VentaController', 'method' => 'eliminarDetalle'],
+    'procesar_venta' => ['controller' => 'VentaController', 'method' => 'procesarVenta'],
+    'agregar_producto' => ['controller' => 'VentaController', 'method' => 'agregarProducto'],
+    'generar' => [
+        'controller' => 'PdfController',
+        'method' => 'generarPdf',
+        'params' => ['cl', 'v']
+    ],
 ];
 
 // Verificar si la ruta existe

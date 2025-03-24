@@ -13,139 +13,148 @@ class VentaModel {
                                               INNER JOIN detalle_permisos d ON p.id = d.id_permiso 
                                               WHERE d.id_usuario = $id_user AND p.nombre = '$permiso'");
         
-        return ($sql) ? mysqli_fetch_all($sql, MYSQLI_ASSOC) : []; 
+        return ($sql) ? mysqli_fetch_all($sql, MYSQLI_ASSOC) : []; // Retorna un array asociativo
     }
 
-    // Buscar cliente por identificación
     public function buscarCliente($identificacion) {
-        $query = mysqli_query($this->conexion, "SELECT * FROM cliente WHERE identificacion LIKE '%$identificacion%' AND estado = 1");
         $datos = array();
-        while ($row = mysqli_fetch_assoc($query)) {
-            $data['id'] = $row['idcliente'];
-            $data['label'] = $row['identificacion'];
-            $data['nombre'] = $row['nombre'];
-            $data['apellido'] = $row['apellido'];
-            $data['direccion'] = $row['direccion'];
-            $data['telefono'] = $row['telefono'];
+        $query = $this->conexion->query("SELECT * FROM cliente WHERE identificacion LIKE '%$identificacion%' AND estado = 1");
+        while ($row = $query->fetch_assoc()) {
+            $data = [
+                'id' => $row['idcliente'],
+                'label' => $row['identificacion'],
+                'nombre' => $row['nombre'],
+                'apellido' => $row['apellido'],
+                'direccion' => $row['direccion'],
+                'telefono' => $row['telefono']
+            ];
             array_push($datos, $data);
         }
         return $datos;
     }
 
-    // Buscar producto por nombre o código
     public function buscarProducto($nombre) {
-        $query = mysqli_query($this->conexion, "SELECT p.*, SUM(i.cantidad) AS stock 
-                                                FROM producto p 
-                                                LEFT JOIN inventario i ON p.codproducto = i.codproducto 
-                                                WHERE (p.codigo LIKE '%$nombre%' OR p.descripcion LIKE '%$nombre%') AND p.estado = 1 
-                                                GROUP BY p.codproducto");
         $datos = array();
-        while ($row = mysqli_fetch_assoc($query)) {
-            $data['id'] = $row['codproducto'];
-            $data['label'] = $row['codigo'] . ' - ' . $row['descripcion'];
-            $data['value'] = $row['descripcion'];
-            $data['precio'] = $row['precio_venta'];
-            $data['stock'] = $row['stock'] ?? 0;
+        $query = $this->conexion->query("SELECT p.*, SUM(i.cantidad) AS stock 
+                                       FROM producto p 
+                                       LEFT JOIN inventario i ON p.codproducto = i.codproducto 
+                                       WHERE (p.codigo LIKE '%$nombre%' OR p.descripcion LIKE '%$nombre%') AND p.estado = 1 
+                                       GROUP BY p.codproducto");
+        while ($row = $query->fetch_assoc()) {
+            $data = [
+                'id' => $row['codproducto'],
+                'label' => $row['codigo'] . ' - ' . $row['descripcion'],
+                'value' => $row['descripcion'],
+                'precio' => $row['precio_venta'],
+                'stock' => $row['stock'] ?? 0
+            ];
             array_push($datos, $data);
         }
         return $datos;
     }
 
-    // Obtener detalles temporales de la venta
-    public function obtenerDetalleTemporal($id_usuario) {
-        $query = mysqli_query($this->conexion, "SELECT d.*, p.codproducto, p.descripcion 
-                                                FROM detalle_temp d 
-                                                INNER JOIN producto p ON d.id_producto = p.codproducto 
-                                                WHERE d.id_usuario = $id_usuario");
+    public function obtenerDetalleTemp($id_usuario) {
         $datos = array();
-        while ($row = mysqli_fetch_assoc($query)) {
-            $data['id'] = $row['id'];
-            $data['descripcion'] = $row['descripcion'];
-            $data['cantidad'] = $row['cantidad'];
-            $data['precio_venta'] = $row['precio_venta'];
-            $data['sub_total'] = number_format($row['precio_venta'] * $row['cantidad'], 2, '.', ',');
+        $query = $this->conexion->query("SELECT d.*, p.codproducto, p.descripcion 
+                                        FROM detalle_temp d 
+                                        INNER JOIN producto p ON d.id_producto = p.codproducto 
+                                        WHERE d.id_usuario = $id_usuario");
+        while ($row = $query->fetch_assoc()) {
+            $data = [
+                'id' => $row['id'],
+                'descripcion' => $row['descripcion'],
+                'cantidad' => $row['cantidad'],
+                'precio_venta' => $row['precio_venta'],
+                'sub_total' => number_format($row['precio_venta'] * $row['cantidad'], 2, '.', ',')
+            ];
             array_push($datos, $data);
         }
         return $datos;
     }
 
-    // Eliminar detalle temporal
-    public function eliminarDetalleTemporal($id_detalle) {
-        $verificar = mysqli_query($this->conexion, "SELECT * FROM detalle_temp WHERE id = $id_detalle");
-        $datos = mysqli_fetch_assoc($verificar);
+    public function eliminarDetalleTemp($id_detalle) {
+        $verificar = $this->conexion->query("SELECT * FROM detalle_temp WHERE id = $id_detalle");
+        $datos = $verificar->fetch_assoc();
+        
         if ($datos['cantidad'] > 1) {
             $cantidad = $datos['cantidad'] - 1;
-            $query = mysqli_query($this->conexion, "UPDATE detalle_temp SET cantidad = $cantidad WHERE id = $id_detalle");
+            $query = $this->conexion->query("UPDATE detalle_temp SET cantidad = $cantidad WHERE id = $id_detalle");
             return $query ? "restado" : "Error";
         } else {
-            $query = mysqli_query($this->conexion, "DELETE FROM detalle_temp WHERE id = $id_detalle");
+            $query = $this->conexion->query("DELETE FROM detalle_temp WHERE id = $id_detalle");
             return $query ? "ok" : "Error";
         }
     }
 
-    // Procesar la venta
-    public function procesarVenta($id_cliente, $id_usuario, $tipo_pago, $fecha_venta) {
+    public function procesarVenta($id_cliente, $id_user, $tipo_pago, $fecha_venta) {
         // Obtener el total de la venta
-        $consulta = mysqli_query($this->conexion, "SELECT total, SUM(total) AS total_pagar FROM detalle_temp WHERE id_usuario = $id_usuario");
-        $result = mysqli_fetch_assoc($consulta);
+        $consulta = $this->conexion->query("SELECT total, SUM(total) AS total_pagar FROM detalle_temp WHERE id_usuario = $id_user");
+        $result = $consulta->fetch_assoc();
         $total = $result['total_pagar'];
 
         // Insertar la venta
-        $insertar = mysqli_query($this->conexion, "INSERT INTO ventas(id_cliente, total, id_usuario, fecha) VALUES ($id_cliente, '$total', $id_usuario, '$fecha_venta')");
-        if ($insertar) {
-            // Obtener el ID de la venta recién insertada
-            $id_maximo = mysqli_query($this->conexion, "SELECT MAX(id) AS total FROM ventas");
-            $resultId = mysqli_fetch_assoc($id_maximo);
-            $ultimoId = $resultId['total'];
-
-            // Insertar detalles de la venta y actualizar el inventario
-            $consultaDetalle = mysqli_query($this->conexion, "SELECT * FROM detalle_temp WHERE id_usuario = $id_usuario");
-            while ($row = mysqli_fetch_assoc($consultaDetalle)) {
-                $id_producto = $row['id_producto'];
-                $cantidad = $row['cantidad'];
-                $precio = $row['precio_venta'];
-
-                // Insertar detalle de venta con el tipo de pago
-                $insertarDet = mysqli_query($this->conexion, "INSERT INTO detalle_venta(id_producto, id_venta, cantidad, precio, tipo_pago) VALUES ($id_producto, $ultimoId, $cantidad, '$precio', '$tipo_pago')");
-
-                // Actualizar el inventario
-                $query_inventario = mysqli_query($this->conexion, "SELECT * FROM inventario WHERE codproducto = $id_producto ORDER BY cantidad DESC LIMIT 1");
-                $inventario = mysqli_fetch_assoc($query_inventario);
-                $nueva_cantidad = $inventario['cantidad'] - $cantidad;
-
-                if ($nueva_cantidad >= 0) {
-                    mysqli_query($this->conexion, "UPDATE inventario SET cantidad = $nueva_cantidad WHERE idinventario = {$inventario['idinventario']}");
-                } else {
-                    // Manejar casos donde no hay suficiente stock
-                    return ['mensaje' => 'No hay suficiente stock para el producto ' . $id_producto];
-                }
-            }
-
-            // Eliminar detalles temporales
-            $eliminar = mysqli_query($this->conexion, "DELETE FROM detalle_temp WHERE id_usuario = $id_usuario");
-            return ['id_cliente' => $id_cliente, 'id_venta' => $ultimoId];
-        } else {
+        $insertar = $this->conexion->query("INSERT INTO ventas(id_cliente, total, id_usuario, fecha) VALUES ($id_cliente, '$total', $id_user, '$fecha_venta')");
+        
+        if (!$insertar) {
             return ['mensaje' => 'error'];
+        }
+
+        // Obtener el ID de la venta
+        $id_maximo = $this->conexion->query("SELECT MAX(id) AS total FROM ventas");
+        $resultId = $id_maximo->fetch_assoc();
+        $ultimoId = $resultId['total'];
+
+        // Procesar detalles
+        $consultaDetalle = $this->conexion->query("SELECT * FROM detalle_temp WHERE id_usuario = $id_user");
+        while ($row = $consultaDetalle->fetch_assoc()) {
+            $id_producto = $row['id_producto'];
+            $cantidad = $row['cantidad'];
+            $precio = $row['precio_venta'];
+
+            // Insertar detalle
+            $this->conexion->query("INSERT INTO detalle_venta(id_producto, id_venta, cantidad, precio, tipo_pago) VALUES ($id_producto, $ultimoId, $cantidad, '$precio', '$tipo_pago')");
+
+            // Actualizar inventario
+            $query_inventario = $this->conexion->query("SELECT * FROM inventario WHERE codproducto = $id_producto ORDER BY cantidad DESC LIMIT 1");
+            $inventario = $query_inventario->fetch_assoc();
+            $nueva_cantidad = $inventario['cantidad'] - $cantidad;
+
+            if ($nueva_cantidad >= 0) {
+                $this->conexion->query("UPDATE inventario SET cantidad = $nueva_cantidad WHERE idinventario = {$inventario['idinventario']}");
+            } else {
+                return ['mensaje' => 'No hay suficiente stock para el producto ' . $id_producto];
+            }
+        }
+
+        // Limpiar temporal
+        $this->conexion->query("DELETE FROM detalle_temp WHERE id_usuario = $id_user");
+        return ['id_cliente' => $id_cliente, 'id_venta' => $ultimoId];
+    }
+
+    public function agregarProductoTemp($id, $cant, $precio, $id_user) {
+        $total = $precio * $cant;
+        $verificar = $this->conexion->query("SELECT * FROM detalle_temp WHERE id_producto = $id AND id_usuario = $id_user");
+        
+        if ($verificar->num_rows > 0) {
+            $datos = $verificar->fetch_assoc();
+            $cantidad = $datos['cantidad'] + 1;
+            $total_precio = $cantidad * $total;
+            $query = $this->conexion->query("UPDATE detalle_temp SET cantidad = $cantidad, total = '$total_precio' WHERE id_producto = $id AND id_usuario = $id_user");
+            return $query ? "actualizado" : "Error al ingresar";
+        } else {
+            $query = $this->conexion->query("INSERT INTO detalle_temp(id_usuario, id_producto, cantidad, precio_venta, total) VALUES ($id_user, $id, $cant, '$precio', $total)");
+            return $query ? "registrado" : "Error al ingresar";
         }
     }
 
-    // Agregar producto al detalle temporal
-    public function agregarDetalleTemporal($id, $cant, $precio, $id_user) {
-        $total = $precio * $cant;
-
-        // Verificar si el producto ya está en el detalle temporal
-        $verificar = mysqli_query($this->conexion, "SELECT * FROM detalle_temp WHERE id_producto = $id AND id_usuario = $id_user");
-        $result = mysqli_num_rows($verificar);
-        $datos = mysqli_fetch_assoc($verificar);
-
-        if ($result > 0) {
-            $cantidad = $datos['cantidad'] + 1;
-            $total_precio = $cantidad * $total;
-            $query = mysqli_query($this->conexion, "UPDATE detalle_temp SET cantidad = $cantidad, total = '$total_precio' WHERE id_producto = $id AND id_usuario = $id_user");
-            return $query ? "actualizado" : "Error al ingresar";
+    public function cambiarClave($id, $actual, $nueva) {
+        $consulta = $this->conexion->query("SELECT * FROM usuario WHERE clave = '$actual' AND idusuario = $id");
+        
+        if ($consulta->num_rows == 1) {
+            $query = $this->conexion->query("UPDATE usuario SET clave = '$nueva' WHERE idusuario = $id");
+            return $query ? 'ok' : 'error';
         } else {
-            $query = mysqli_query($this->conexion, "INSERT INTO detalle_temp(id_usuario, id_producto, cantidad, precio_venta, total) VALUES ($id_user, $id, $cant, '$precio', $total)");
-            return $query ? "registrado" : "Error al ingresar";
+            return 'dif';
         }
     }
 }

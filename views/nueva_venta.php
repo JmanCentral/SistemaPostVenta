@@ -7,11 +7,11 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <form method="post">
+                <form id="formCliente">
                     <div class="row">
                         <div class="col-lg-4">
                             <div>
-                                <input type="hidden" id="idcliente" value="1" name="idcliente" required>
+                                <input type="hidden" id="id_cliente" name="id_cliente" required>
                                 <label>Identificación</label>
                                 <input type="text" name="identificacion_cliente" id="identificacion_cliente" class="form-control" placeholder="Ingrese DNI del cliente" required>
                             </div>
@@ -64,12 +64,12 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <input id="producto" class="form-control" type="text" name="producto" placeholder="Ingresa el código o nombre">
+                                    <div id="listaProductos" class="list-group mt-2" style="display: none;"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Nuevo campo para seleccionar el tipo de pago -->
                 <div class="row mt-3">
                     <div class="col-lg-6">
                         <div class="form-group">
@@ -81,7 +81,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- Nuevo campo para la fecha de la venta -->
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label><i class="fas fa-calendar"></i> Fecha de Venta</label>
@@ -106,15 +105,50 @@
                 <tbody id="detalle_venta"></tbody>
                 <tfoot>
                     <tr class="font-weight-bold">
-                        <td colspan=3>Total Pagar</td>
+                        <td colspan=4>Total Pagar</td>
                         <td id="total_pagar">0.00</td>
+                        <td></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
-    <div class="col-md-6">
-        <a href="#" class="btn btn-primary" id="btn_generar"><i class="fas fa-save"></i> Generar Venta</a>
+    <div class="col-md-12 text-right">
+        <button class="btn btn-primary" id="btn_generar"><i class="fas fa-save"></i> Generar Venta</button>
+    </div>
+</div>
+
+<!-- Modal para cantidad de producto -->
+<div class="modal fade" id="modalCantidad" tabindex="-1" role="dialog" aria-labelledby="modalCantidadLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCantidadLabel">Cantidad de Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formCantidad">
+                    <input type="hidden" id="id_producto">
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" class="form-control" id="cantidad_producto" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio Unitario</label>
+                        <input type="number" class="form-control" id="precio_producto" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Stock disponible: <span id="stock_disponible">0</span></label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnAgregarProducto">Agregar</button>
+            </div>
+        </div>
     </div>
 </div>
 

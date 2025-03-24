@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         minLength: 3,
         source: function (request, response) {
             $.ajax({
-                url: "controllers/VentaController.php",
+                url: "views/nueva_venta.php",
                 dataType: "json",
                 data: {
                     q: request.term
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         minLength: 3,
         source: function (request, response) {
             $.ajax({
-                url: "controllers/VentaController.php",
+                url: "views/nueva_venta.php",
                 dataType: "json",
                 data: {
                     pro: request.term
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var tipo_pago = $('#tipo_pago').val();
             var fecha_venta = $('#fecha_venta').val();
             $.ajax({
-                url: 'ajax.php',
+                url: 'views/nueva_venta.php',
                 async: true,
                 data: {
                     procesarVenta: action,
@@ -139,7 +139,7 @@ function listar() {
     let html = '';
     let detalle = 'detalle';
     $.ajax({
-        url: "controllers/VentaController.php",
+        url: "views/nueva_venta.php",
         dataType: "json",
         data: {
             detalle: detalle
@@ -169,7 +169,7 @@ function registrarDetalle(e, id, cant, precio) {
             if (id != null) {
                 let action = 'regDetalle';
                 $.ajax({
-                    url: "ajax.php",
+                    url: "views/nueva_venta.php",
                     type: 'POST',
                     dataType: "json",
                     data: {
@@ -219,7 +219,7 @@ function registrarDetalle(e, id, cant, precio) {
 function deleteDetalle(id) {
     let detalle = 'Eliminar'
     $.ajax({
-        url: "ajax.php",
+        url: "views/nueva_venta.php",
         data: {
             id: id,
             delete_detalle: detalle
