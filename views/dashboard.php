@@ -69,7 +69,7 @@
     </a>
 
     <!-- Ventas -->
-    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=ventas">
+    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=facturas">
         <div class="card border-left-warning bg-danger shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -120,7 +120,7 @@
     </a>
 
     <!-- Productos con stock mínimo -->
-    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=inventario">
+    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=stock">
         <div class="card border-left-danger shadow h-100 py-2 bg-danger">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -137,173 +137,237 @@
     </a>
 </div>
 
+<style>
+    .chart-container {
+        position: relative;
+        height: 300px; /* Altura fija para ambos gráficos */
+        width: 100%;
+    }
+</style>
+
 <!-- Gráficos -->
 <div class="row">
-    <!-- Gráfico de productos con stock mínimo -->
+    <!-- Fila 1 -->
     <div class="col-lg-6">
-        <div class="au-card m-b-30">
+        <div class="au-card m-b-30 chart-card">
             <div class="au-card-inner">
-                <h3 class="title-2 m-b-40">Productos con stock mínimo</h3>
-                <canvas id="stockMinimoChart"></canvas>
+                <h3 class="title-2 m-b-20">Productos con stock mínimo</h3>
+                <div class="chart-container">
+                    <canvas id="stockMinimoChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Gráfico de productos más vendidos -->
     <div class="col-lg-6">
-        <div class="au-card m-b-30">
+        <div class="au-card m-b-30 chart-card">
             <div class="au-card-inner">
-                <h3 class="title-2 m-b-40">Productos más vendidos</h3>
-                <canvas id="productosVendidosChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- Gráfico de ventas por fecha -->
-    <div class="col-lg-12">
-        <div class="au-card m-b-30">
-            <div class="au-card-inner">
-                <h3 class="title-2 m-b-40">Ventas por Fecha</h3>
-                <canvas id="ventasPorFechaChart"></canvas>
+                <h3 class="title-2 m-b-20">Productos más vendidos</h3>
+                <div class="chart-container">
+                    <canvas id="productosVendidosChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="col-lg-12">
-        <div class="au-card m-b-30">
+<div class="row">
+    <!-- Fila 2 -->
+    <div class="col-lg-6">
+        <div class="au-card m-b-30 chart-card">
             <div class="au-card-inner">
-                <h3 class="title-2 m-b-40">Ganancias por producto</h3>
-                <canvas id="GananciasChart"></canvas>
+                <h3 class="title-2 m-b-20">Ventas por Fecha</h3>
+                <div class="chart-container">
+                    <canvas id="ventasPorFechaChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="au-card m-b-30 chart-card">
+            <div class="au-card-inner">
+                <h3 class="title-2 m-b-20">Ganancias por producto</h3>
+                <div class="chart-container">
+                    <canvas id="GananciasChart"></canvas>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    .chart-card {
+        height: 100%;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px; /* Altura fija para todos los gráficos */
+        width: 100%;
+    }
+    
+    .au-card-inner {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    .title-2 {
+        flex-shrink: 0;
+    }
+</style>
 
 <!-- Incluir Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Script para los gráficos -->
 <script>
-    // Datos para el gráfico de productos con stock mínimo
+    // Configuración común para todos los gráficos
+    const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+            }
+        }
+    };
+
+    // 1. Gráfico de productos con stock mínimo
     const productosStockMinimo = <?php echo json_encode($data['productos_stock_minimo']); ?>;
-    const labelsStockMinimo = productosStockMinimo.map(producto => producto.descripcion);
-    const dataStockMinimo = productosStockMinimo.map(producto => producto.existencia);
-
-    // Crear el gráfico de barras para productos con stock mínimo
-    const ctxStockMinimo = document.getElementById('stockMinimoChart').getContext('2d');
-    const stockMinimoChart = new Chart(ctxStockMinimo, {
-        type: 'bar',
-        data: {
-            labels: labelsStockMinimo,
-            datasets: [{
-                label: 'Existencia',
-                data: dataStockMinimo,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Cantidad en Stock'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Productos'
+    const stockMinimoChart = new Chart(
+        document.getElementById('stockMinimoChart').getContext('2d'), 
+        {
+            type: 'bar',
+            data: {
+                labels: productosStockMinimo.map(p => p.descripcion),
+                datasets: [{
+                    label: 'Existencia',
+                    data: productosStockMinimo.map(p => p.existencia),
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Cantidad en Stock' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Productos' }
                     }
                 }
             }
         }
-    });
+    );
 
-    // Datos para el gráfico de productos más vendidos
+    // 2. Gráfico de productos más vendidos
     const productosVendidos = <?php echo json_encode($data['productos_vendidos']); ?>;
-    const labelsVendidos = productosVendidos.map(producto => producto.descripcion);
-    const dataVendidos = productosVendidos.map(producto => producto.total_vendido);
-
-    // Crear el gráfico de barras para productos más vendidos
-    const ctxVendidos = document.getElementById('productosVendidosChart').getContext('2d');
-    const productosVendidosChart = new Chart(ctxVendidos, {
-        type: 'bar',
-        data: {
-            labels: labelsVendidos,
-            datasets: [{
-                label: 'Total Vendido',
-                data: dataVendidos,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Cantidad Vendida'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Productos'
+    const productosVendidosChart = new Chart(
+        document.getElementById('productosVendidosChart').getContext('2d'), 
+        {
+            type: 'bar',
+            data: {
+                labels: productosVendidos.map(p => p.descripcion),
+                datasets: [{
+                    label: 'Total Vendido',
+                    data: productosVendidos.map(p => p.total_vendido),
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Cantidad Vendida' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Productos' }
                     }
                 }
             }
         }
-    });
+    );
 
-    // Datos para el gráfico de ventas por fecha
+    // 3. Gráfico de ventas por fecha
     const ventasPorFecha = <?php echo json_encode($data['ventas_fecha']); ?>;
-    const labelsVentas = ventasPorFecha.map(venta => venta.fecha);
-    const dataVentas = ventasPorFecha.map(venta => venta.total_ventas);
-
-    // Crear el gráfico de líneas para ventas por fecha
-    const ctxVentas = document.getElementById('ventasPorFechaChart').getContext('2d');
-    const ventasPorFechaChart = new Chart(ctxVentas, {
-        type: 'line',
-        data: {
-            labels: labelsVentas,
-            datasets: [{
-                label: 'Total de Ventas',
-                data: dataVentas,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: true
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Total de Ventas'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Fecha'
+    const ventasPorFechaChart = new Chart(
+        document.getElementById('ventasPorFechaChart').getContext('2d'), 
+        {
+            type: 'line',
+            data: {
+                labels: ventasPorFecha.map(v => v.fecha),
+                datasets: [{
+                    label: 'Total de Ventas',
+                    data: ventasPorFecha.map(v => v.total_ventas),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: true
+                }]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Total de Ventas' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Fecha' }
                     }
                 }
             }
         }
-    });
+    );
 
-    
-
-
+    // 4. Gráfico de ganancias por producto
+    const gananciasProductos = <?php echo json_encode($data['ganancias']); ?>;
+    const GananciasChart = new Chart(
+        document.getElementById('GananciasChart').getContext('2d'), 
+        {
+            type: 'doughnut',
+            data: {
+                labels: gananciasProductos.map(p => p.descripcion),
+                datasets: [{
+                    label: 'Ganancia',
+                    data: gananciasProductos.map(p => p.ganancia),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                ...commonOptions,
+                cutout: '60%',
+                plugins: {
+                    ...commonOptions.plugins,
+                    title: {
+                        display: true,
+                        text: 'Ganancias por Producto'
+                    }
+                }
+            }
+        }
+    );
 </script>
 
 <?php include_once "includes/footer.php"; ?>

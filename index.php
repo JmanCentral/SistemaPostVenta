@@ -39,6 +39,7 @@ $routes = [
     'agregar_producto' => ['controller' => 'VentaController', 'method' => 'agregarProducto'],
     'generar_pdf' => ['controller' => 'VentaController', 'method' => 'generarPdf'],
     'facturas' => ['controller' => 'FacturaController', 'method' => 'index'],
+    'stock' => ['controller' => 'DashboardController', 'method' => 'stock_bajo'],
 ];
 
 // Verificar si la ruta existe

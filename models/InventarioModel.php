@@ -78,5 +78,6 @@ class InventarioModel {
         $query = mysqli_query($this->conexion, "UPDATE inventario SET estado = 0 WHERE idinventario = $id");
         return $query;
     }
+
 }
 ?>

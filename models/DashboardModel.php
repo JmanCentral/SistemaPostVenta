@@ -109,22 +109,37 @@ class DashboardModel {
                 FROM detalle_venta dv
                 INNER JOIN producto p ON dv.id_producto = p.codproducto
                 GROUP BY p.codproducto";
-    
+        
         $resultado = $conexion->query($sql);
         
-        $ganancia_total = 0;
+        $productos = array();
         if ($resultado->num_rows > 0) {
             while ($fila = $resultado->fetch_assoc()) {
-                $ganancia_total += $fila['ganancia'];
+                $productos[] = $fila;
             }
         }
         
-        return $ganancia_total;
+        return $productos;
     }
+
+    function obtenerProductosStockBajo() {
+
+        $conexion = getConnection();
+
+        $sql = "SELECT i.codproducto, p.descripcion, i.cantidad 
+                FROM inventario i
+                INNER JOIN producto p ON i.codproducto = p.codproducto
+                WHERE i.cantidad < 10";
+        
+        $resultado = $conexion ->query($sql);
     
-
-
-
+        $productos = [];
+        while ($fila = $resultado->fetch_assoc()) {
+            $productos[] = $fila;
+        }
+    
+        return $productos;
+    }
 
 }
 ?>

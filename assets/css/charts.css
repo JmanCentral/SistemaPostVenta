@@ -1,0 +1,22 @@
+/* Estilos para los contenedores de gráficos */
+
+.chart-container {
+        position: relative;
+        height: 300px; /* Altura fija para ambos gráficos */
+        width: 100%;
+    }
+
+.chart-card {
+    height: 100%;
+}
+
+.au-card-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.title-2 {
+    flex-shrink: 0;
+    margin-bottom: 1rem !important;
+}

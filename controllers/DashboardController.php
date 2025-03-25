@@ -16,10 +16,22 @@ class DashboardController {
             'productos_stock_minimo' => $dashboardModel->getProductosStockMinimo(),
             'productos_vendidos' => $dashboardModel->getProductosMasVendidos(),
             'ventas_fecha' => $dashboardModel->getVentasPorFecha(),
-            'ganancias' => $dashboardModel->obtenerGananciaTotal()
+            'ganancias' => $dashboardModel->obtenerGananciaTotal(),
+            'stock_bajo' => $dashboardModel->   obtenerProductosStockBajo()
         ];
 
         require_once 'views/dashboard.php';
+    }
+
+    public function stock_bajo() {
+
+        $dashboardModel = new DashboardModel();
+
+        $productosStockBajo = $dashboardModel->obtenerProductosStockBajo();
+
+        // Incluir la vista y pasar los datos
+        require_once 'views/stock_bajo.php';
+
     }
 }
 ?>
