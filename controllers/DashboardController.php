@@ -15,7 +15,8 @@ class DashboardController {
             'totalInv' => $dashboardModel->getTotalInventario(),
             'productos_stock_minimo' => $dashboardModel->getProductosStockMinimo(),
             'productos_vendidos' => $dashboardModel->getProductosMasVendidos(),
-            'ventas_fecha' => $dashboardModel->getVentasPorFecha()
+            'ventas_fecha' => $dashboardModel->getVentasPorFecha(),
+            'ganancias' => $dashboardModel->obtenerGananciaTotal()
         ];
 
         require_once 'views/dashboard.php';

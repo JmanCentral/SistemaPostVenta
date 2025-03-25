@@ -284,9 +284,10 @@ function calcular() {
     filas[1].textContent = total.toFixed(2);
 }
 function generarPDF(cliente, id_venta) {
-    url = 'views/generar.php?cl=' + cliente + '&v=' + id_venta;
+    const url = 'index.php?action=generar_pdf&cl=' + cliente + '&v=' + id_venta;
     window.open(url, '_blank');
 }
+
 if (document.getElementById("sales-chart")) {
     const action = "sales";
     $.ajax({

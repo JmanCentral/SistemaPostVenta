@@ -170,6 +170,17 @@
     </div>
 </div>
 
+<div class="col-lg-12">
+        <div class="au-card m-b-30">
+            <div class="au-card-inner">
+                <h3 class="title-2 m-b-40">Ganancias por producto</h3>
+                <canvas id="GananciasChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- Incluir Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -289,6 +300,10 @@
             }
         }
     });
+
+    
+
+
 </script>
 
 <?php include_once "includes/footer.php"; ?>

@@ -30,13 +30,15 @@ $routes = [
     'editar_permisos' => ['controller' => 'PermisoController', 'method' => 'editarPermisos'],
     'nueva_venta' => ['controller' => 'VentaController', 'method' => 'index'],
     'denegado' => ['controller' => 'DenegacionController', 'method' => 'index'],
+    'utilidades' => ['controller' => 'VentaController', 'method' => 'obtenerUtilidades'],
     'buscar_cliente' => ['controller' => 'VentaController', 'method' => 'buscarCliente'],
     'buscar_producto' => ['controller' => 'VentaController', 'method' => 'buscarProducto'],
     'obtener_detalle' => ['controller' => 'VentaController', 'method' => 'obtenerDetalle'],
     'eliminar_detalle' => ['controller' => 'VentaController', 'method' => 'eliminarDetalle'],
     'procesar_venta' => ['controller' => 'VentaController', 'method' => 'procesarVenta'],
     'agregar_producto' => ['controller' => 'VentaController', 'method' => 'agregarProducto'],
-    'utilidades' => ['controller' => 'VentaController', 'method' => 'obtenerUtilidades'],
+    'generar_pdf' => ['controller' => 'VentaController', 'method' => 'generarPdf'],
+    'facturas' => ['controller' => 'FacturaController', 'method' => 'index'],
 ];
 
 // Verificar si la ruta existe

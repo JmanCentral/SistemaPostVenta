@@ -1,15 +1,18 @@
 <?php
 session_start();
 require_once 'models/VentaModel.php';
+require_once 'services/FacturadorService.php';
 
 class VentaController {
     private $ventasModel;
     private $id_usuario;
+    private $facturador;
 
 
     public function __construct() {
         $this->ventasModel = new VentaModel();
         $this->id_usuario = $_SESSION['idUser'] ?? null;
+        $this->facturador = new FacturadorService();
     }
 
     public function index() {
@@ -105,6 +108,39 @@ class VentaController {
 
         $ganancias = $this->ventasModel->obtenerGanancias();
         require_once "views/ganancias.php";
+    }   
+
+
+    public function generarPdf() {
+        try {
+            // Limpiar buffers
+            while (ob_get_level()) {
+                ob_end_clean();
+            }
+            
+            // Validar parámetros
+            $idVenta = $_GET['v'] ?? null;
+            $idCliente = $_GET['cl'] ?? null;
+            
+            if (!$idVenta || !$idCliente) {
+                throw new Exception("Parámetros inválidos");
+            }
+            
+            // Generar PDF
+            $pdf = $this->facturador->generarFactura($idVenta, $idCliente);
+            
+            // Configurar cabeceras
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: inline; filename="factura_'.$idVenta.'.pdf"');
+            
+            // Salida del PDF
+            $pdf->Output('I', 'factura_'.$idVenta.'.pdf');
+            exit;
+            
+        } catch (Exception $e) {
+            http_response_code(500);
+            die("Error al generar factura: " . $e->getMessage());
+        }
     }
 
 }

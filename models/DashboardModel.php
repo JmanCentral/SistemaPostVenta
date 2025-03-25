@@ -96,5 +96,35 @@ class DashboardModel {
         mysqli_close($conexion);
         return $resultados;
     }
+
+    function obtenerGananciaTotal() {
+        $conexion = getConnection();
+        $sql = "SELECT 
+                    p.codproducto,
+                    p.descripcion,
+                    p.precio_compra,
+                    p.precio_venta,
+                    SUM(dv.cantidad) AS total_vendido,
+                    (p.precio_venta - p.precio_compra) * SUM(dv.cantidad) AS ganancia
+                FROM detalle_venta dv
+                INNER JOIN producto p ON dv.id_producto = p.codproducto
+                GROUP BY p.codproducto";
+    
+        $resultado = $conexion->query($sql);
+        
+        $ganancia_total = 0;
+        if ($resultado->num_rows > 0) {
+            while ($fila = $resultado->fetch_assoc()) {
+                $ganancia_total += $fila['ganancia'];
+            }
+        }
+        
+        return $ganancia_total;
+    }
+    
+
+
+
+
 }
 ?>

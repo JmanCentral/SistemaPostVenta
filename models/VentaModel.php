@@ -182,5 +182,50 @@ class VentaModel {
         return $resultados;
     }
 
+    public function obtenerDatosEmpresa() {
+        $query = mysqli_query($this->conexion, "SELECT * FROM configuracion");
+        return mysqli_fetch_assoc($query);
+    }
+
+    public function obtenerDatosCliente($idCliente) {
+        $query = mysqli_query($this->conexion, "SELECT * FROM cliente WHERE idcliente = $idCliente");
+        return mysqli_fetch_assoc($query);
+    }
+
+    public function obtenerFechaVenta($idVenta) {
+        $query = mysqli_query($this->conexion, "SELECT fecha FROM ventas WHERE id = $idVenta");
+        $result = mysqli_fetch_assoc($query);
+        return $result['fecha'];
+    }
+
+    public function obtenerDetallesVenta($idVenta) {
+        $query = mysqli_query($this->conexion, 
+            "SELECT d.*, p.codproducto, p.descripcion 
+             FROM detalle_venta d 
+             INNER JOIN producto p ON d.id_producto = p.codproducto 
+             WHERE d.id_venta = $idVenta");
+        
+        $detalles = [];
+        while ($row = mysqli_fetch_assoc($query)) {
+            $detalles[] = $row;
+        }
+        return $detalles;
+    }
+
+    public function calcularTotalVenta($detalles) {
+        $total = 0;
+        foreach ($detalles as $item) {
+            $total += $item['cantidad'] * $item['precio'];
+        }
+        return $total;
+    }
+
+    public function obtenerTipoPago($idVenta) {
+        $query = mysqli_query($this->conexion, 
+            "SELECT tipo_pago FROM detalle_venta WHERE id_venta = $idVenta LIMIT 1");
+        $result = mysqli_fetch_assoc($query);
+        return $result['tipo_pago'] ?? '';
+    }
+
 }
 ?>

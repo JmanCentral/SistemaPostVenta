@@ -59,7 +59,7 @@ if (empty($_SESSION['active'])) {
                             Proveedores
                         </a>
                         
-                        <a class="nav-link" href="lista_ventas.php">
+                        <a class="nav-link" href="index.php?action=facturas">
                             <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
                             Ventas
                         </a>
