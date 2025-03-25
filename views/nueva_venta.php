@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div>
-                                <input type="hidden" id="id_cliente" name="id_cliente" required>
+                            <input type="hidden" id="id_cliente" name="id_cliente" required>
                                 <label>Identificación</label>
                                 <input type="text" name="identificacion_cliente" id="identificacion_cliente" class="form-control" placeholder="Ingrese DNI del cliente" required>
                             </div>

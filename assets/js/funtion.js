@@ -68,17 +68,18 @@ document.addEventListener("DOMContentLoaded", function () {
         var rows = $('#tblDetalle tr').length;
         if (rows > 2) {
             var action = 'procesarVenta';
-            var id = $('#id_cliente').val();
+            var id_cliente = $('#id_cliente').val();
             var tipo_pago = $('#tipo_pago').val();
             var fecha_venta = $('#fecha_venta').val();
             $.ajax({
                 url: 'index.php?action=procesar_venta',
                 async: true,
+                type: 'POST',
                 data: {
                     procesarVenta: action,
                     tipo_pago: tipo_pago,
                     fecha_venta: fecha_venta,    
-                    id: id
+                    id_cliente: id_cliente
                 },
                 success: function (response) {
                     const res = JSON.parse(response);
@@ -283,14 +284,7 @@ function calcular() {
     filas[1].textContent = total.toFixed(2);
 }
 function generarPDF(cliente, id_venta) {
-    // Validar que los parámetros no sean undefined
-    if (cliente === undefined || id_venta === undefined) {
-        console.error('Parámetros no definidos para generar PDF');
-        return;
-    }
-    
-    // Usar la ruta del enrutador
-    url = 'index.php?action=generar&cl=' + cliente + '&v=' + id_venta;
+    url = 'views/generar.php?cl=' + cliente + '&v=' + id_venta;
     window.open(url, '_blank');
 }
 if (document.getElementById("sales-chart")) {

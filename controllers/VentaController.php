@@ -70,10 +70,6 @@ class VentaController {
     }
 
     public function procesarVenta() {
-        if (!$this->id_usuario || !isset($_POST['id_cliente']) || !isset($_POST['tipo_pago']) || !isset($_POST['fecha_venta'])) {
-            echo json_encode(['mensaje' => 'Datos incompletos']);
-            return;
-        }
 
         $id_cliente = $_POST['id_cliente'];
         $tipo_pago = $_POST['tipo_pago'];
@@ -96,5 +92,20 @@ class VentaController {
         $msg = $this->ventasModel->agregarProductoTemp($id, $cant, $precio, $this->id_usuario);
         echo json_encode($msg);
     }
+
+    public function obtenerUtilidades(){
+
+        $permiso = "ventas";
+        $existe = $this->ventasModel->verificarPermisos($this->id_usuario, $permiso);
+
+        if (empty($existe) && $this->id_usuario != 1) { // Corregido $this->$id_user a $this->id_usuario
+            header("Location: index.php?action=denegado");
+            exit();
+        }
+
+        $ganancias = $this->ventasModel->obtenerGanancias();
+        require_once "views/ganancias.php";
+    }
+
 }
 ?>

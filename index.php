@@ -36,11 +36,7 @@ $routes = [
     'eliminar_detalle' => ['controller' => 'VentaController', 'method' => 'eliminarDetalle'],
     'procesar_venta' => ['controller' => 'VentaController', 'method' => 'procesarVenta'],
     'agregar_producto' => ['controller' => 'VentaController', 'method' => 'agregarProducto'],
-    'generar' => [
-        'controller' => 'PdfController',
-        'method' => 'generarPdf',
-        'params' => ['cl', 'v']
-    ],
+    'utilidades' => ['controller' => 'VentaController', 'method' => 'obtenerUtilidades'],
 ];
 
 // Verificar si la ruta existe

@@ -157,5 +157,30 @@ class VentaModel {
             return 'dif';
         }
     }
+
+    public function obtenerGanancias() {
+        $query = mysqli_query($this->conexion, "
+            SELECT 
+                p.codproducto,
+                p.descripcion AS producto,
+                SUM(dv.cantidad) AS cantidad_vendida,
+                p.precio_compra,
+                p.precio_venta,
+                SUM((p.precio_venta - p.precio_compra) * dv.cantidad) AS ganancia
+            FROM 
+                detalle_venta dv
+            INNER JOIN 
+                producto p ON dv.id_producto = p.codproducto
+            GROUP BY 
+                p.codproducto
+        ");
+        
+        $resultados = [];
+        while ($row = mysqli_fetch_assoc($query)) {
+            $resultados[] = $row;
+        }
+        return $resultados;
+    }
+
 }
 ?>

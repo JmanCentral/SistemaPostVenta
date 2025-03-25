@@ -9,7 +9,7 @@
 <!-- Content Row -->
 <div class="row">
     <!-- Usuarios -->
-    <a class="col-xl-3 col-md-6 mb-4" href="usuarios.php">
+    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=usuarios">
         <div class="card border-left-primary shadow h-100 py-2 bg-warning">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -26,7 +26,7 @@
     </a>
 
     <!-- Clientes -->
-    <a class="col-xl-3 col-md-6 mb-4" href="clientes.php">
+    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=clientes">
         <div class="card border-left-success shadow h-100 py-2 bg-success">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -43,7 +43,7 @@
     </a>
 
     <!-- Productos -->
-    <a class="col-xl-3 col-md-6 mb-4" href="productos.php">
+    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=productos">
         <div class="card border-left-info shadow h-100 py-2 bg-primary">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -69,7 +69,7 @@
     </a>
 
     <!-- Ventas -->
-    <a class="col-xl-3 col-md-6 mb-4" href="ventas.php">
+    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=ventas">
         <div class="card border-left-warning bg-danger shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -86,7 +86,7 @@
     </a>
 
     <!-- Proveedores -->
-    <a class="col-xl-3 col-md-6 mb-4" href="proveedor.php">
+    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=proveedores">
         <div class="card border-left-secondary shadow h-100 py-2 bg-secondary">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -103,7 +103,7 @@
     </a>
 
     <!-- Inventario -->
-    <a class="col-xl-3 col-md-6 mb-4" href="inventario.php">
+    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=inventario">
         <div class="card border-left-info shadow h-100 py-2 bg-info">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -120,7 +120,7 @@
     </a>
 
     <!-- Productos con stock mínimo -->
-    <a class="col-xl-3 col-md-6 mb-4" href="productos.php">
+    <a class="col-xl-3 col-md-6 mb-4" href="index.php?action=inventario">
         <div class="card border-left-danger shadow h-100 py-2 bg-danger">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">

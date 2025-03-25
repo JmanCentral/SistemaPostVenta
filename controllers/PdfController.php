@@ -1,6 +1,6 @@
 <?php
 // Controller/PdfController.php
-require_once 'Model/PdfModel.php';
+require_once 'models/PdfModel.php';
 
 class PdfController {
     private $model;
@@ -120,16 +120,5 @@ class PdfController {
     }
 }
 
-// Punto de entrada (generar.php)
-require_once 'Controller/PdfController.php';
 
-if (isset($_GET['cl']) && isset($_GET['v'])) {
-    $clienteId = $_GET['cl'];
-    $ventaId = $_GET['v'];
-    
-    $controller = new PdfController($conexion);
-    $controller->generarPdf($clienteId, $ventaId);
-} else {
-    die('Parámetros incorrectos');
-}
 ?>
