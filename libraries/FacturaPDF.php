@@ -13,8 +13,10 @@ class FacturaPDF extends FPDF {
         // Logo de la empresa (ajusta la ruta según tu estructura)
         
         // Título
+        $this->Image("assets/img/banner.jpeg", 10, 10, 30, 30, 'JPEG');
         $this->SetFont('Arial', 'B', 16);
         $this->Cell(0, 10, $this->encodeText('Reporte de Venta'), 0, 1, 'C');
+        $this->Ln(20);
         
         // Datos empresa
         $this->SetFont('Arial', '', 10);
@@ -22,6 +24,7 @@ class FacturaPDF extends FPDF {
             
             $this->Cell(0, 10, $this->encodeText('Datos de la empresa'), 0, 1, 'L');
             $this->Cell(0, 5, $this->encodeText('Nombre: ' . ($this->datosEmpresa['nombre'] ?? 'No disponible')), 0, 1, 'L');
+            $this->Cell(0, 5, $this->encodeText('NIT: ' . ($this->datosEmpresa['NIT'] ?? 'No disponible')), 0, 1, 'L');
             $this->Cell(0, 5, $this->encodeText('Teléfono: ' . ($this->datosEmpresa['telefono'] ?? 'No disponible')), 0, 1, 'L');
             $this->Cell(0, 5, $this->encodeText('Dirección: ' . ($this->datosEmpresa['direccion'] ?? 'No disponible')), 0, 1, 'L');
             $this->Cell(0, 5, $this->encodeText('Correo: ' . ($this->datosEmpresa['email'] ?? 'No disponible')), 0, 1, 'L');
@@ -76,6 +79,7 @@ class FacturaPDF extends FPDF {
         $this->Cell(0, 5, $this->encodeText('Apellido: ' . $this->datosCliente['apellido']), 0, 1, 'L');
         $this->Cell(0, 5, $this->encodeText('Teléfono: ' . $this->datosCliente['telefono']), 0, 1, 'L');
         $this->Cell(0, 5, $this->encodeText('Dirección: ' . $this->datosCliente['direccion']), 0, 1, 'L');
+        $this->Cell(0, 5, $this->encodeText('Correo: ' . $this->datosCliente['email']), 0, 1, 'L');
         $this->Ln(10);
     }
     

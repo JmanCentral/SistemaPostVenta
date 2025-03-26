@@ -27,16 +27,17 @@ class ConfiguracionController {
         $alert = "";
         if (!empty($_POST)) {
             $nombre = $_POST['nombre'];
+            $NIT = $_POST['NIT'];
             $telefono = $_POST['telefono'];
             $email = $_POST['email'];
             $direccion = $_POST['direccion'];
 
-            if (empty($nombre) || empty($telefono) || empty($email) || empty($direccion)) {
+            if (empty($NIT) || empty($nombre) || empty($telefono) || empty($email) || empty($direccion)) {
                 $alert = '<div class="alert alert-danger" role="alert">Todos los campos son obligatorios</div>';
             } else {
                 if (isset($_POST['insertar'])) {
                     // Insertar nueva configuración
-                    $result = $this->configuracionModel->insertarConfiguracion($nombre, $telefono, $email, $direccion);
+                    $result = $this->configuracionModel->insertarConfiguracion($nombre, $NIT, $telefono, $email, $direccion);
                     if ($result) {
                         $alert = '<div class="alert alert-success" role="alert">Configuración insertada correctamente</div>';
                         // Recargar la página para actualizar el estado de los botones
@@ -47,7 +48,7 @@ class ConfiguracionController {
                 } elseif (isset($_POST['modificar'])) {
                     // Actualizar configuración
                     $id = $_POST['id'];
-                    $result = $this->configuracionModel->actualizarConfiguracion($id, $nombre, $telefono, $email, $direccion);
+                    $result = $this->configuracionModel->actualizarConfiguracion($id, $nombre, $NIT, $telefono, $email, $direccion);
                     if ($result) {
                         $alert = '<div class="alert alert-success" role="alert">Configuración modificada correctamente</div>';
                     } else {

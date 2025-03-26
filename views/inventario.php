@@ -30,18 +30,16 @@
                         <td><?php echo $row['proveedor']; ?></td>
                         <td><?php echo $row['cantidad']; ?></td>
                         <td><?php echo $row['fecha_ingreso']; ?></td>
+                        <td><?php echo ($row['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?></td>
                         <td>
-                            <?php echo ($row['estado'] == 1) 
-                                ? '<span class="badge badge-pill badge-success">Activo</span>' 
-                                : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?>
-                        </td>
-                        <td>
-                            <a href="index.php?action=editar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-success btn-sm">
-                                <i class="fas fa-edit"></i> Editar
-                            </a>
-                            <a href="index.php?action=eliminar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i> Eliminar
-                            </a>
+                            <?php if ($row['estado'] == 1) : ?>
+                                <a href="index.php?action=editar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-success">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <a href="index.php?action=eliminar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i> Eliminar
+                                </a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endwhile; ?>

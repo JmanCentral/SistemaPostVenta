@@ -14,6 +14,10 @@
                         <input type="text" name="nombre" class="form-control" value="<?php echo isset($data['nombre']) ? $data['nombre'] : ''; ?>" placeholder="Nombre de la Empresa" required>
                     </div>
                     <div class="form-group">
+                        <label>NIT:</label>
+                        <input type="number" name="NIT" class="form-control" value="<?php echo isset($data['NIT']) ? $data['NIT'] : ''; ?>" placeholder="Código de la empresa" required>
+                    </div>
+                    <div class="form-group">
                         <label>Teléfono:</label>
                         <input type="number" name="telefono" class="form-control" value="<?php echo isset($data['telefono']) ? $data['telefono'] : ''; ?>" placeholder="Teléfono de la Empresa" required>
                     </div>

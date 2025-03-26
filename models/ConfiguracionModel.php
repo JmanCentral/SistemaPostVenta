@@ -24,15 +24,15 @@ class ConfiguracionModel {
     }
 
     // Inserta una nueva configuración
-    public function insertarConfiguracion($nombre, $telefono, $email, $direccion) {
-        $query = mysqli_query($this->conexion, "INSERT INTO configuracion(nombre, telefono, email, direccion) 
-                                                VALUES ('$nombre', '$telefono', '$email', '$direccion')");
+    public function insertarConfiguracion($nombre, $NIT , $telefono, $email, $direccion) {
+        $query = mysqli_query($this->conexion, "INSERT INTO configuracion(nombre, NIT , telefono, email, direccion) 
+                                                VALUES ('$nombre', '$NIT', $telefono', '$email', '$direccion')");
         return $query;
     }
 
     // Actualiza la configuración
-    public function actualizarConfiguracion($id, $nombre, $telefono, $email, $direccion) {
-        $query = mysqli_query($this->conexion, "UPDATE configuracion SET nombre = '$nombre', telefono = '$telefono', 
+    public function actualizarConfiguracion($id, $nombre, $NIT , $telefono, $email, $direccion) {
+        $query = mysqli_query($this->conexion, "UPDATE configuracion SET nombre = '$nombre', NIT = '$NIT' , telefono = '$telefono', 
                                                 email = '$email', direccion = '$direccion' WHERE id = $id");
         return $query;
     }

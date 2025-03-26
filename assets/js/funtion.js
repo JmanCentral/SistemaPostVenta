@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#apellido_cliente").val(ui.item.apellido);
             $("#tel_cliente").val(ui.item.telefono);
             $("#dir_cliente").val(ui.item.direccion);
+            $("#correo_cliente").val(ui.item.correo);
         }
     })
     $("#producto").autocomplete({
@@ -85,11 +86,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     const res = JSON.parse(response);
                     if (response != 'error') {
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'center',
                             icon: 'success',
                             title: 'Venta Generada',
                             showConfirmButton: false,
-                            timer: 2000
+                            timer: 5000
                         })
                         setTimeout(() => {
                             generarPDF(res.id_cliente, res.id_venta);
@@ -97,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         }, 300);
                     } else {
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'center',
                             icon: 'error',
                             title: 'Error al generar la venta',
                             showConfirmButton: false,

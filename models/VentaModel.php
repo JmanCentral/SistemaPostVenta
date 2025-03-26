@@ -26,7 +26,8 @@ class VentaModel {
                 'nombre' => $row['nombre'],
                 'apellido' => $row['apellido'],
                 'direccion' => $row['direccion'],
-                'telefono' => $row['telefono']
+                'telefono' => $row['telefono'],
+                'correo' => $row['email']
             ];
             array_push($datos, $data);
         }

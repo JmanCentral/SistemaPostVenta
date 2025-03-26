@@ -40,6 +40,12 @@
                                 <input type="text" name="dir_cliente" id="dir_cliente" class="form-control" disabled required>
                             </div>
                         </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Correo</label>
+                                <input type="text" name="correo_cliente" id="correo_cliente" class="form-control" disabled required>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
