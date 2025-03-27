@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+entriesdocument.addEventListener("DOMContentLoaded", function () {
     $('#tbl').DataTable();
     $(".confirmar").submit(function (e) {
         e.preventDefault();

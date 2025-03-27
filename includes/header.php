@@ -22,20 +22,24 @@ if (empty($_SESSION['active'])) {
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand" href="index.php?action=dashboard">Pos Venta</a>
+        <a class="navbar-brand" href="index.php?action=dashboard">FactuTiendas</a>
         <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
 
         <!-- Navbar-->
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#nuevo_pass">Perfil</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="index.php">Cerrar Sessión</a>
-                </div>
-            </li>
-        </ul>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user fa-fw"></i> 
+            <?php echo isset($_SESSION['usuario']) ? "Bienvenido, " . $_SESSION['usuario'] : "Invitado"; ?>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#nuevo_pass">Perfil</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="index.php">Cerrar Sesión</a>
+        </div>
+    </li>
+</ul>
+
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">

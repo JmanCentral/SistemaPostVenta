@@ -54,11 +54,12 @@ class DashboardModel {
         $conexion = getConnection();
         $query = mysqli_query($conexion, "SELECT p.descripcion, SUM(i.cantidad) AS existencia 
                                           FROM producto p 
-                                          INNER JOIN inventario i ON p.codproducto = i.codproducto 
+                                          INNER JOIN inventario i ON p.codproducto = i.codproducto
+                                          WHERE p.estado = 1 
                                           GROUP BY p.codproducto 
                                           HAVING SUM(i.cantidad) <= 10 
                                           ORDER BY existencia ASC 
-                                          LIMIT 10");
+                                          LIMIT 10 ");
         $resultados = [];
         while ($row = mysqli_fetch_assoc($query)) {
             $resultados[] = $row;
@@ -129,7 +130,7 @@ class DashboardModel {
         $sql = "SELECT i.codproducto, p.descripcion, i.cantidad 
                 FROM inventario i
                 INNER JOIN producto p ON i.codproducto = p.codproducto
-                WHERE i.cantidad < 10";
+                WHERE i.cantidad <= 10 AND p.estado = 1";
         
         $resultado = $conexion ->query($sql);
     

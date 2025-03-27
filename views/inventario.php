@@ -30,7 +30,7 @@
                         <td><?php echo $row['proveedor']; ?></td>
                         <td><?php echo $row['cantidad']; ?></td>
                         <td><?php echo $row['fecha_ingreso']; ?></td>
-                        <td><?php echo ($row['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?></td>
+                        <td><?php echo ($row['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-warning">Agotado</span>'; ?></td>
                         <td>
                             <?php if ($row['estado'] == 1) : ?>
                                 <a href="index.php?action=editar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-success">
