@@ -38,6 +38,7 @@ $routes = [
     'procesar_venta' => ['controller' => 'VentaController', 'method' => 'procesarVenta'],
     'agregar_producto' => ['controller' => 'VentaController', 'method' => 'agregarProducto'],
     'generar_pdf' => ['controller' => 'VentaController', 'method' => 'generarPdf'],
+    'generar_pdf_fisico' => ['controller' => 'VentaController', 'method' => 'generarPdffisico'],
     'facturas' => ['controller' => 'FacturaController', 'method' => 'index'],
     'stock' => ['controller' => 'DashboardController', 'method' => 'stock_bajo'],
 ];

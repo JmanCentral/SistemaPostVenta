@@ -31,7 +31,7 @@
                 <td><?php echo htmlspecialchars($row['total']); ?></td>
                 <td><?php echo htmlspecialchars($row['fecha']); ?></td>
                 <td>
-                    <a href="index.php?action=generar_pdf&cl=<?php echo $row['id_cliente'] ?>&v=<?php echo $row['id'] ?>" 
+                    <a href="index.php?action=generar_pdf_fisico&cl=<?php echo $row['id_cliente'] ?>&v=<?php echo $row['id'] ?>" 
                        target="_blank" class="btn btn-danger">
                         <i class="fas fa-file-pdf"></i>
                     </a>

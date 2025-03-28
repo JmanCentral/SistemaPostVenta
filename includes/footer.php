@@ -36,7 +36,7 @@
 <script src="assets/js/sweetalert2.all.min.js"></script>
 <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>
 <script src="assets/js/Chart.bundle.min.js"></script>
-<script src="assets/js/logica.js"></script>
+<script src="assets/js/correo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="assets/css/charts.css"></script>
 <script src="assets/js/charts.js"></script>

@@ -92,7 +92,7 @@ class VentaModel {
         $consulta = $this->conexion->query("SELECT total, SUM(total) AS total_pagar FROM detalle_temp WHERE id_usuario = $id_user");
         $result = $consulta->fetch_assoc();
         $total = $result['total_pagar'];
-
+            
         // Insertar la venta
         $insertar = $this->conexion->query("INSERT INTO ventas(id_cliente, total, id_usuario, fecha) VALUES ($id_cliente, '$total', $id_user, '$fecha_venta')");
         

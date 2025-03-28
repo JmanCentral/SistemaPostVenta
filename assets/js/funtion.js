@@ -71,6 +71,7 @@ entriesdocument.addEventListener("DOMContentLoaded", function () {
             var action = 'procesarVenta';
             var id_cliente = $('#id_cliente').val();
             var tipo_pago = $('#tipo_pago').val();
+            var correo = $('#correo_cliente').val();
             var fecha_venta = $('#fecha_venta').val();
             $.ajax({
                 url: 'index.php?action=procesar_venta',
@@ -80,7 +81,8 @@ entriesdocument.addEventListener("DOMContentLoaded", function () {
                     procesarVenta: action,
                     tipo_pago: tipo_pago,
                     fecha_venta: fecha_venta,    
-                    id_cliente: id_cliente
+                    id_cliente: id_cliente,
+                    correo: correo
                 },
                 success: function (response) {
                     const res = JSON.parse(response);
@@ -93,7 +95,7 @@ entriesdocument.addEventListener("DOMContentLoaded", function () {
                             timer: 5000
                         })
                         setTimeout(() => {
-                            generarPDF(res.id_cliente, res.id_venta);
+                            generarPDF(res.id_cliente, res.id_venta , res.correo);
                             location.reload();
                         }, 300);
                     } else {
@@ -285,7 +287,7 @@ function calcular() {
     filas[1].textContent = total.toFixed(2);
 }
 function generarPDF(cliente, id_venta) {
-    const url = 'index.php?action=generar_pdf&cl=' + cliente + '&v=' + id_venta;
+    const url = 'index.php?action=generar_pdf&cl=' + cliente + '&v=' + id_venta + '&f=' + correo ;
     window.open(url, '_blank');
 }
 

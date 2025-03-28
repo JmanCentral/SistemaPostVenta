@@ -1,21 +1,24 @@
 <?php
+
 session_start();
+
 require_once 'models/VentaModel.php';
 require_once 'services/FacturadorService.php';
-require_once 'PHPMailer/PHPMailer.php';
-require_once 'PHPMailer/SMTP.php';
-require_once 'PHPMailer/Exception.php';
+require_once 'services/EmailService.php';
 
 class VentaController {
+
     private $ventasModel;
     private $id_usuario;
     private $facturador;
+    private $emailService;
 
 
     public function __construct() {
         $this->ventasModel = new VentaModel();
         $this->id_usuario = $_SESSION['idUser'] ?? null;
         $this->facturador = new FacturadorService();
+        $this->emailService = new EmailService();
     }
 
     public function index() {
@@ -116,62 +119,34 @@ class VentaController {
 
     public function generarPdf() {
         try {
-            // Validar parámetros
             $idVenta = $_GET['v'] ?? null;
             $idCliente = $_GET['cl'] ?? null;
             $correo = $_GET['f'] ?? null;
             
             if (!$idVenta || !$idCliente || !$correo) {
-                throw new Exception("Parámetros inválidos soroco");
+                throw new Exception("Parámetros inválidos");
             }
             
-            // Generar PDF
             $pdf = $this->facturador->generarFactura($idVenta, $idCliente);
-            
-            // Guardar PDF temporalmente
             $filename = 'factura_'.$idVenta.'.pdf';
-            $pdf->Output($filename, 'F'); // 'F' guarda en archivo local
-            
-            // Configurar PHPMailer
-            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+            $pdf->Output($filename, 'F');
             
             try {
-                // Configuración del servidor SMTP
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com'; // Cambia esto
-                $mail->SMTPAuth = true;
-                $mail->Username = 'Finazapp2@gmail.com'; // Cambia esto
-                $mail->Password = 'ndio iksr ksiw ktgh'; // Cambia esto
-                $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port = 587;
+                $this->emailService->sendEmailWithAttachment(
+                    $correo,
+                    'Factura de tu compra',
+                    'Adjunto encontrarás la factura de tu compra. Gracias por tu preferencia.',
+                    $filename
+                );
                 
-                // Remitente y destinatario
-                $mail->setFrom('Finazapp2@gmail.com', 'PostVenta');
-                $mail->addAddress($correo);
-                
-                // Contenido del correo
-                $mail->isHTML(true);
-                $mail->Subject = 'Factura de tu compra';
-                $mail->Body    = 'Adjunto encontrarás la factura de tu compra. Gracias por tu preferencia.';
-                $mail->AltBody = 'Adjunto encontrarás la factura de tu compra.';
-                
-                // Adjuntar PDF
-                $mail->addAttachment($filename);
-                
-                $mail->send();
-                
-                // Eliminar archivo temporal
                 unlink($filename);
-                
-                // Redirigir o mostrar mensaje de éxito
                 echo 'La factura ha sido enviada al correo electrónico';
                 
             } catch (Exception $e) {
-                // Eliminar archivo temporal en caso de error
                 if (file_exists($filename)) {
                     unlink($filename);
                 }
-                throw new Exception("Error al enviar el correo: {$mail->ErrorInfo}");
+                throw new Exception("Error al enviar el correo: {$e->getMessage()}");
             }
             
         } catch (Exception $e) {

@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         minLength: 3,
         source: function (request, response) {
             $.ajax({
-                url: "ajax.php",
+                url: "index.php?action=buscar_cliente",
                 dataType: "json",
                 data: {
                     q: request.term
@@ -30,19 +30,20 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         },
         select: function (event, ui) {
-            $("#idcliente").val(ui.item.id);
+            $("#id_cliente").val(ui.item.id);
             $("#identificacion_cliente").val(ui.item.identificacion);
-            $("#nom_cliente").val(ui.item.label);
+            $("#nom_cliente").val(ui.item.nombre);
             $("#apellido_cliente").val(ui.item.apellido);
             $("#tel_cliente").val(ui.item.telefono);
             $("#dir_cliente").val(ui.item.direccion);
+            $("#correo_cliente").val(ui.item.correo);
         }
     })
     $("#producto").autocomplete({
         minLength: 3,
         source: function (request, response) {
             $.ajax({
-                url: "ajax.php",
+                url: "index.php?action=buscar_producto",
                 dataType: "json",
                 data: {
                     pro: request.term
@@ -66,37 +67,51 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#btn_generar').click(function (e) {
         e.preventDefault();
         var rows = $('#tblDetalle tr').length;
+        
         if (rows > 2) {
             var action = 'procesarVenta';
-            var id = $('#idcliente').val();
+            var id_cliente = $('#id_cliente').val();
             var tipo_pago = $('#tipo_pago').val();
+            var correo = $('#correo_cliente').val();
             var fecha_venta = $('#fecha_venta').val();
+            
             $.ajax({
-                url: 'ajax.php',
+                url: 'index.php?action=procesar_venta',
                 async: true,
+                type: 'POST',
                 data: {
                     procesarVenta: action,
                     tipo_pago: tipo_pago,
                     fecha_venta: fecha_venta,    
-                    id: id
+                    id_cliente: id_cliente
                 },
                 success: function (response) {
                     const res = JSON.parse(response);
                     if (response != 'error') {
                         Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
                             title: 'Venta Generada',
-                            showConfirmButton: false,
-                            timer: 2000
-                        })
-                        setTimeout(() => {
-                            generarPDF(res.id_cliente, res.id_venta);
-                            location.reload();
-                        }, 300);
+                            text: '¿Qué tipo de factura deseas?',
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonText: 'Digital',
+                            cancelButtonText: 'Física'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Factura digital
+                                generarPDF(res.id_cliente, res.id_venta, correo);
+                            } else {
+                                // Factura física (Método por implementar)
+                                generarFacturaFisica(res.id_cliente, res.id_venta);
+                            }
+    
+                            setTimeout(() => {
+                                location.reload();
+                            }, 300);
+                        });
+    
                     } else {
                         Swal.fire({
-                            position: 'top-end',
+                            position: 'center',
                             icon: 'error',
                             title: 'Error al generar la venta',
                             showConfirmButton: false,
@@ -105,29 +120,41 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 },
                 error: function (error) {
-
+                    console.error('Error en la solicitud AJAX:', error);
                 }
             });
-        }else{
+        } else {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: 'No hay producto ',
+                title: 'No hay producto para generar la venta',
                 showConfirmButton: false,
                 timer: 2000
-            })
+            });
         }
-    });
+    });    
     if (document.getElementById("detalle_venta")) {
         listar();
     }
 })
 
+
+function mostrarAlertaPermisos() {
+    Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'No tienes permisos',
+        timer: 2500
+    });
+}
+
+
+
 function listar() {
     let html = '';
     let detalle = 'detalle';
     $.ajax({
-        url: "ajax.php",
+        url: "index.php?action=obtener_detalle",
         dataType: "json",
         data: {
             detalle: detalle
@@ -157,7 +184,7 @@ function registrarDetalle(e, id, cant, precio) {
             if (id != null) {
                 let action = 'regDetalle';
                 $.ajax({
-                    url: "ajax.php",
+                    url: "index.php?action=agregar_producto",
                     type: 'POST',
                     dataType: "json",
                     data: {
@@ -169,7 +196,7 @@ function registrarDetalle(e, id, cant, precio) {
                     success: function (response) {
                         if (response == 'registrado') {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'center',
                                 icon: 'success',
                                 title: 'Producto Ingresado',
                                 showConfirmButton: false,
@@ -180,7 +207,7 @@ function registrarDetalle(e, id, cant, precio) {
                             listar();
                         } else if (response == 'actualizado') {
                             Swal.fire({
-                                position: 'top-end',
+                                position: 'center',
                                 icon: 'success',
                                 title: 'Producto Actualizado',
                                 showConfirmButton: false,
@@ -207,7 +234,7 @@ function registrarDetalle(e, id, cant, precio) {
 function deleteDetalle(id) {
     let detalle = 'Eliminar'
     $.ajax({
-        url: "ajax.php",
+        url: "index.php?action=eliminar_detalle",
         data: {
             id: id,
             delete_detalle: detalle
@@ -216,7 +243,7 @@ function deleteDetalle(id) {
             console.log(response);
             if (response == 'restado') {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Producto Descontado',
                     showConfirmButton: false,
@@ -227,7 +254,7 @@ function deleteDetalle(id) {
                 listar();
             } else if (response == 'ok') {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'success',
                     title: 'Producto Eliminado',
                     showConfirmButton: false,
@@ -270,10 +297,17 @@ function calcular() {
     var filas = document.querySelectorAll("#tblDetalle tfoot tr td");
     filas[1].textContent = total.toFixed(2);
 }
-function generarPDF(cliente, id_venta) {
-    url = 'pdf/generar.php?cl=' + cliente + '&v=' + id_venta;
+function generarPDF(cliente, id_venta, correo) {
+    const url = 'index.php?action=generar_pdf&cl=' + cliente + '&v=' + id_venta + '&f=' + correo ;
     window.open(url, '_blank');
 }
+
+function generarFacturaFisica(cliente, id_venta) {
+    const url = 'index.php?action=generar_pdf_fisico&cl=' + cliente + '&v=' + id_venta;
+    window.open(url, '_blank');
+}
+
+
 if (document.getElementById("sales-chart")) {
     const action = "sales";
     $.ajax({
