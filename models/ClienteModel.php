@@ -54,5 +54,11 @@ class ClienteModel {
         $query = mysqli_query($this->conexion, "UPDATE cliente SET estado = 0 WHERE idcliente = $id");
         return $query;
     }
+
+    public function activarCliente($id) {
+
+        $query = mysqli_query($this->conexion, "UPDATE cliente SET estado = 1 WHERE idcliente = $id");
+        return $query;
+    }
 }
 ?>

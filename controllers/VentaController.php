@@ -65,14 +65,39 @@ class VentaController {
     }
 
     public function eliminarDetalle() {
-        if (!isset($_GET['id']) || !$this->id_usuario) {
-            echo "Error";
-            return;
+        try {
+            // Validar autenticación
+            if (!$this->id_usuario) {
+                throw new Exception('No autorizado');
+            }
+    
+            // Validar parámetros
+            if (!isset($_POST['id']) || !isset($_POST['cantidad'])) {
+                throw new Exception('Parámetros incompletos');
+            }
+    
+            // Sanitizar entradas
+            $id_detalle = filter_var($_POST['id'], FILTER_VALIDATE_INT);
+            $cantidad = filter_var($_POST['cantidad'], FILTER_VALIDATE_INT);
+    
+            if ($id_detalle === false || $cantidad === false || $cantidad <= 0) {
+                throw new Exception('Datos inválidos');
+            }
+    
+            // Llamar al modelo
+            $resultado = $this->ventasModel->eliminarDetalleTemp($id_detalle, $cantidad);
+    
+            // Devolver respuesta JSON
+            header('Content-Type: application/json');
+            echo $resultado;
+    
+        } catch (Exception $e) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'estado' => 'error',
+                'mensaje' => $e->getMessage()
+            ]);
         }
-
-        $id_detalle = $_GET['id'];
-        $msg = $this->ventasModel->eliminarDetalleTemp($id_detalle);
-        echo $msg;
     }
 
     public function procesarVenta() {
@@ -163,8 +188,8 @@ class VentaController {
                 // Eliminar archivo temporal
                 unlink($filename);
                 
-                // Redirigir o mostrar mensaje de éxito
-                echo 'La factura ha sido enviada al correo electrónico';
+                header("Location: views/vistaMensaje.php?mensaje=" . urlencode("La factura ha sido enviada al correo electrónico"));
+                exit;
                 
             } catch (Exception $e) {
                 // Eliminar archivo temporal en caso de error

@@ -35,15 +35,19 @@
                         <td><?php echo $data['email']; ?></td>
                         <td><?php echo ($data['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?></td>
                         <td>
-                            <?php if ($data['estado'] == 1) : ?>
-                                <a href="index.php?action=editar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-success">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
-                                <a href="index.php?action=eliminar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-danger">
-                                    <i class="fas fa-trash"></i> Eliminar
-                                </a>
-                            <?php endif; ?>
-                        </td>
+    <?php if ($data['estado'] == 1) : ?>
+        <a href="index.php?action=editar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-success">
+            <i class="fas fa-edit"></i> Editar
+        </a>
+        <a href="index.php?action=eliminar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-danger">
+            <i class="fas fa-trash"></i> Eliminar
+        </a>
+    <?php else : ?>
+        <a href="index.php?action=activarCliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-primary">
+            <i class="fas fa-check"></i> Activar
+        </a>
+    <?php endif; ?>
+</td>
                     </tr>
                 <?php endwhile; ?>
             <?php else : ?>

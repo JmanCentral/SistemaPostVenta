@@ -154,5 +154,32 @@ class ClienteController {
             exit();
         }
     }
+
+    public function activarCliente() {
+        // Verificar permisos
+        $id_user = $_SESSION['idUser'];
+        $permiso = "clientes";
+        $existe = $this->clienteModel->verificarPermisos($id_user, $permiso);
+
+        if (empty($existe) && $id_user != 1) {
+            header("Location: permisos.php");
+            exit();
+        }
+
+        // Actualizar cliente (cambiar estado a inactivo)
+        if (!empty($_GET['id'])) {
+            $id = $_GET['id'];
+            $result = $this->clienteModel->activarCliente($id);
+            if ($result) {
+                header("Location: index.php?action=clientes");
+                exit();
+            } else {
+                echo "Error al activar el cliente.";
+            }
+        } else {
+            header("Location: index.php?action=clientes");
+            exit();
+        }
+    }
 }
 ?>

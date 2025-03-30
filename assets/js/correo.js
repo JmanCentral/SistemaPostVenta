@@ -149,106 +149,168 @@ function mostrarAlertaPermisos() {
 }
 
 
+// Función para mostrar el modal de cantidad al agregar producto
+function mostrarModalAgregar(id, precio, stock) {
+    $('#id_producto').val(id);
+    $('#precio_producto').val(precio);
+    $('#stock_disponible').text(stock || 'N/A');
+    $('#cantidad_producto').val(1).attr({
+        'min': 1,
+        'max': stock || ''
+    });
+    $('#modalCantidad').modal('show');
+}
 
+// Evento para el botón de agregar producto en el modal
+$('#btnAgregarProducto').click(function() {
+    const id = $('#id_producto').val();
+    const cant = parseInt($('#cantidad_producto').val());
+    const precio = parseFloat($('#precio_producto').val());
+    
+    if (cant > 0 && precio > 0) {
+        registrarDetalle(null, id, cant, precio);
+        $('#modalCantidad').modal('hide');
+    } else {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Cantidad y precio deben ser mayores a cero',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+});
+
+// Función listar modificada para incluir botón de eliminar con cantidad
 function listar() {
     let html = '';
     let detalle = 'detalle';
     $.ajax({
         url: "index.php?action=obtener_detalle",
         dataType: "json",
-        data: {
-            detalle: detalle
-        },
-        success: function (response){
+        data: { detalle: detalle },
+        success: function(response) {
             response.forEach(row => {
                 html += `<tr>
-                <td>${row['id']}</td>
-                <td>${row['descripcion']}</td>
-                <td>${row['cantidad']}</td>
-                <td>${row['precio_venta']}</td>
-                <td>${row['sub_total']}</td>
-                <td><button class="btn btn-danger" type="button" onclick="deleteDetalle(${row['id']})">
-                <i class="fas fa-trash-alt"></i></button></td>
+                    <td>${row['id']}</td>
+                    <td>${row['descripcion']}</td>
+                    <td>${row['cantidad']}</td>
+                    <td>${row['precio_venta']}</td>
+                    <td>${row['sub_total']}</td>
+                    <td>
+                        <button class="btn btn-danger" type="button" 
+                                onclick="mostrarModalEliminar(${row['id']}, ${row['cantidad']})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
                 </tr>`;
             });
             document.querySelector("#detalle_venta").innerHTML = html;
             calcular();
-            
         }
     });
 }
 
+// Función registrarDetalle modificada para aceptar llamadas desde el modal
 function registrarDetalle(e, id, cant, precio) {
-    if (document.getElementById('producto').value != '') {
-        if (e.which == 13) {
-            if (id != null) {
-                let action = 'regDetalle';
-                $.ajax({
-                    url: "index.php?action=agregar_producto",
-                    type: 'POST',
-                    dataType: "json",
-                    data: {
-                        id: id,
-                        cant: cant,
-                        action: action,
-                        precio: precio
-                    },
-                    success: function (response) {
-                        if (response == 'registrado') {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Producto Ingresado',
-                                showConfirmButton: false,
-                                timer: 2000
-                            })
-                            document.querySelector("#producto").value = '';
-                            document.querySelector("#producto").focus();
-                            listar();
-                        } else if (response == 'actualizado') {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Producto Actualizado',
-                                showConfirmButton: false,
-                                timer: 2000
-                            })
-                            document.querySelector("#producto").value = '';
-                            document.querySelector("#producto").focus();
-                            listar();
-                        } else {
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: 'Error al ingresar el producto',
-                                showConfirmButton: false,
-                                timer: 2000
-                            })
-                        }
+    // Si se llama desde el modal, e será null
+    if (e === null || (document.getElementById('producto').value != '' && e.which == 13)) {
+        if (id != null) {
+            let action = 'regDetalle';
+            $.ajax({
+                url: "index.php?action=agregar_producto",
+                type: 'POST',
+                dataType: "json",
+                data: {
+                    id: id,
+                    cant: cant,
+                    action: action,
+                    precio: precio
+                },
+                success: function(response) {
+                    if (response == 'registrado') {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Producto Ingresado',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        document.querySelector("#producto").value = '';
+                        document.querySelector("#producto").focus();
+                        listar();
+                    } else if (response == 'actualizado') {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Producto Actualizado',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        document.querySelector("#producto").value = '';
+                        document.querySelector("#producto").focus();
+                        listar();
+                    } else {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Error al ingresar el producto',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
                     }
-                });
-            }
+                }
+            });
         }
     }
 }
-function deleteDetalle(id) {
-    let detalle = 'Eliminar'
+
+// Función para mostrar el modal de eliminación con cantidad
+function mostrarModalEliminar(id, cantidadActual) {
+    Swal.fire({
+        title: 'Eliminar producto',
+        html: `<p>¿Cuántas unidades deseas eliminar?</p>
+               <input type="number" id="cantidadEliminar" class="swal2-input" 
+                      min="1" max="${cantidadActual}" value="1">`,
+        showCancelButton: true,
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+            const cantidad = document.getElementById('cantidadEliminar').value;
+            if (!cantidad || cantidad < 1 || cantidad > cantidadActual) {
+                Swal.showValidationMessage('Ingrese una cantidad válida');
+                return false;
+            }
+            return { cantidad: cantidad };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const cantidad = result.value.cantidad;
+            deleteDetalle(id, cantidad);
+        }
+    });
+}
+
+// Función deleteDetalle modificada para manejar cantidades
+function deleteDetalle(id, cantidad = null) {
+    let detalle = 'Eliminar';
     $.ajax({
         url: "index.php?action=eliminar_detalle",
         data: {
             id: id,
-            delete_detalle: detalle
+            delete_detalle: detalle,
+            cantidad: cantidad  // Enviamos la cantidad a eliminar
         },
-        success: function (response) {
+        success: function(response) {
             console.log(response);
             if (response == 'restado') {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Producto Descontado',
+                    title: cantidad ? `${cantidad} unidad(es) eliminada(s)` : 'Producto Descontado',
                     showConfirmButton: false,
                     timer: 2000
-                })
+                });
                 document.querySelector("#producto").value = '';
                 document.querySelector("#producto").focus();
                 listar();
@@ -259,7 +321,7 @@ function deleteDetalle(id) {
                     title: 'Producto Eliminado',
                     showConfirmButton: false,
                     timer: 2000
-                })
+                });
                 document.querySelector("#producto").value = '';
                 document.querySelector("#producto").focus();
                 listar();
@@ -270,7 +332,7 @@ function deleteDetalle(id) {
                     title: 'Error al eliminar el producto',
                     showConfirmButton: false,
                     timer: 2000
-                })
+                });
             }
         }
     });

@@ -1,6 +1,10 @@
 </div>
 </main>
 
+<footer class="py-4 bg-light mt-auto">
+    
+</footer>
+
 </div>
 </div>
 <div id="nuevo_pass" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
@@ -36,11 +40,10 @@
 <script src="assets/js/sweetalert2.all.min.js"></script>
 <script src="assets/js/jquery-ui/jquery-ui.min.js"></script>
 <script src="assets/js/Chart.bundle.min.js"></script>
-<script src="assets/js/correo.js"></script>
+<script src="assets/js/funtion.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="assets/css/charts.css"></script>
 <script src="assets/js/charts.js"></script>
-
 </body>
 
 </html>

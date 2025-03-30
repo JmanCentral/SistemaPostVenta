@@ -86,68 +86,51 @@
     <script src="assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="assets/js/scripts.js"></script>
     <script>
-        // Script para generar las monedas animadas
         document.addEventListener('DOMContentLoaded', function() {
-            const coinBackground = document.getElementById('coinBackground');
-            const coinCount = 30; // Número de monedas
-            
-            for (let i = 0; i < coinCount; i++) {
-                createCoin();
-            }
-            
-            function createCoin() {
-                const coin = document.createElement('div');
-                coin.classList.add('coin');
-                
-                // Posición horizontal aleatoria
-                const posX = Math.random() * 100;
-                
-                // Tamaño aleatorio entre 10px y 30px
-                const size = Math.random() * 20 + 10;
-                
-                // Duración de la animación entre 5s y 15s
-                const duration = Math.random() * 10 + 5;
-                
-                // Retraso inicial entre 0s y 5s
-                const delay = Math.random() * 5;
-                
-                // Opacidad aleatoria entre 0.5 y 0.9
-                const opacity = Math.random() * 0.4 + 0.5;
-                
-                // Aplicar estilos
-                coin.style.left = `${posX}%`;
-                coin.style.width = `${size}px`;
-                coin.style.height = `${size}px`;
-                coin.style.animationDuration = `${duration}s`;
-                coin.style.animationDelay = `${delay}s`;
-                coin.style.opacity = opacity;
-                
-                // Posicionar fuera de la pantalla (arriba)
-                coin.style.top = `-${size}px`;
-                
-                // Añadir la moneda al fondo
-                coinBackground.appendChild(coin);
-                
-                // Cuando la animación termine, reiniciar la moneda
-                coin.addEventListener('animationiteration', function() {
-                    // Nueva posición horizontal
-                    const newPosX = Math.random() * 100;
-                    coin.style.left = `${newPosX}%`;
-                    
-                    // Nuevo tamaño
-                    const newSize = Math.random() * 20 + 10;
-                    coin.style.width = `${newSize}px`;
-                    coin.style.height = `${newSize}px`;
-                    
-                    // Nueva duración
-                    const newDuration = Math.random() * 10 + 5;
-                    coin.style.animationDuration = `${newDuration}s`;
-                    
-                    // Posicionar fuera de la pantalla de nuevo
-                    coin.style.top = `-${newSize}px`;
-                });
-            }
+    const coinBackground = document.getElementById('coinBackground');
+    const coinCount = 30; // Número de monedas
+    
+    for (let i = 0; i < coinCount; i++) {
+        createCoin();
+    }
+
+    function createCoin() {
+        const coin = document.createElement('div');
+        coin.classList.add('coin');
+
+        // Configurar propiedades iniciales
+        resetCoin(coin);
+
+        // Añadir la moneda al fondo
+        coinBackground.appendChild(coin);
+
+        // Evento cuando termina la animación
+        coin.addEventListener('animationend', function() {
+            resetCoin(coin);
         });
+    }
+
+    function resetCoin(coin) {
+        // Nueva posición horizontal aleatoria
+        const posX = Math.random() * 100;
+        coin.style.left = `${posX}%`;
+
+        // Nuevo tamaño
+        const size = Math.random() * 20 + 10;
+        coin.style.width = `${size}px`;
+        coin.style.height = `${size}px`;
+
+        // Nueva duración
+        const duration = Math.random() * 10 + 5;
+        coin.style.animationDuration = `${duration}s`;
+
+        // Reiniciar la animación
+        coin.style.animation = 'none';
+        void coin.offsetWidth; // Forzar reflujo para reiniciar animación
+        coin.style.animation = `fall ${duration}s linear infinite`;
+    }
+});
+
     </script>
 </body>
 

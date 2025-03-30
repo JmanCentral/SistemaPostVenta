@@ -73,17 +73,64 @@ class VentaModel {
         return $datos;
     }
 
-    public function eliminarDetalleTemp($id_detalle) {
-        $verificar = $this->conexion->query("SELECT * FROM detalle_temp WHERE id = $id_detalle");
-        $datos = $verificar->fetch_assoc();
-        
-        if ($datos['cantidad'] > 1) {
-            $cantidad = $datos['cantidad'] - 1;
-            $query = $this->conexion->query("UPDATE detalle_temp SET cantidad = $cantidad WHERE id = $id_detalle");
-            return $query ? "restado" : "Error";
-        } else {
-            $query = $this->conexion->query("DELETE FROM detalle_temp WHERE id = $id_detalle");
-            return $query ? "ok" : "Error";
+    public function eliminarDetalleTemp($id_detalle, $cantidad_a_eliminar) {
+        // Iniciar transacción
+        $this->conexion->begin_transaction();
+    
+        try {
+            // Obtener detalle actual con prepared statement
+            $stmt = $this->conexion->prepare("SELECT cantidad FROM detalle_temp WHERE id = ? FOR UPDATE");
+            $stmt->bind_param("i", $id_detalle);
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            if ($result->num_rows == 0) {
+                throw new Exception('Registro no encontrado');
+            }
+    
+            $detalle = $result->fetch_assoc();
+            $cantidad_actual = $detalle['cantidad'];
+    
+            // Validar cantidad
+            if ($cantidad_a_eliminar > $cantidad_actual) {
+                throw new Exception('Cantidad a eliminar excede el stock');
+            }
+    
+            // Calcular nueva cantidad
+            $nueva_cantidad = $cantidad_actual - $cantidad_a_eliminar;
+    
+            if ($nueva_cantidad > 0) {
+                // Actualizar cantidad
+                $stmt = $this->conexion->prepare("UPDATE detalle_temp SET cantidad = ? WHERE id = ?");
+                $stmt->bind_param("ii", $nueva_cantidad, $id_detalle);
+                $stmt->execute();
+    
+                $respuesta = [
+                    'estado' => 'parcialmente_eliminado',
+                    'cantidad_eliminada' => $cantidad_a_eliminar,
+                    'cantidad_restante' => $nueva_cantidad
+                ];
+            } else {
+                // Eliminar registro
+                $stmt = $this->conexion->prepare("DELETE FROM detalle_temp WHERE id = ?");
+                $stmt->bind_param("i", $id_detalle);
+                $stmt->execute();
+    
+                $respuesta = [
+                    'estado' => 'completamente_eliminado',
+                    'cantidad_eliminada' => $cantidad_actual
+                ];
+            }
+    
+            $this->conexion->commit();
+            return json_encode($respuesta);
+    
+        } catch (Exception $e) {
+            $this->conexion->rollback();
+            return json_encode([
+                'estado' => 'error',
+                'mensaje' => $e->getMessage()
+            ]);
         }
     }
 

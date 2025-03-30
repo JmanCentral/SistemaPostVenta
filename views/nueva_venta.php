@@ -101,9 +101,9 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>Id</th>
-                        <th>Descripción</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
+                        <th>Descripción<th>Cantidad</th>
+                        <th>Precio</th></th>
+                        
                         <th>Precio Total</th>
                         <th>Acción</th>
                     </tr>

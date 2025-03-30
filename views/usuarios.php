@@ -1,7 +1,7 @@
 <?php include_once "includes/header.php"; ?>
 
 <!-- Botón para agregar nuevo usuario -->
-<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#nuevo_usuario">
+<button class="btn-usuario" type="button" data-toggle="modal" data-target="#nuevo_usuario">
     <i class="fas fa-plus"></i> Nuevo Usuario
 </button>
 
@@ -45,7 +45,7 @@
 <!-- Tabla de usuarios -->
 <div class="table-responsive">
     <table class="table table-hover table-striped table-bordered mt-2" id="tbl">
-        <thead class="thead-dark">
+        <thead class="mi-encabezado">
             <tr>
                 <th>#</th>
                 <th>Nombre</th>
@@ -67,7 +67,7 @@
                         <td>
                             <?php if ($data['estado'] == 1) : ?>
                                 <!-- Botón para editar -->
-                                <a href="index.php?action=editar_usuario&id=<?php echo $data['idusuario']; ?>" class="btn btn-warning">
+                                <a href="index.php?action=editar_usuario&id=<?php echo $data['idusuario']; ?>" class="btn btn-success">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
                                 <!-- Botón para eliminar -->
