@@ -57,8 +57,25 @@ class ProductoModel {
 
     // Elimina un producto (cambia su estado a inactivo)
     public function eliminarProducto($id) {
-        $query = mysqli_query($this->conexion, "UPDATE producto SET estado = 0 WHERE codproducto = $id");
+        $query = mysqli_query($this->conexion, 
+            "UPDATE producto p
+             LEFT JOIN inventario i ON p.codproducto = i.codproducto
+             SET p.estado = 0, i.estado = 0
+             WHERE p.codproducto = $id");
+        
         return $query;
     }
+
+    // Activar un producto (cambia su estado a activo)
+    public function activarProducto($id) {
+        $query = mysqli_query($this->conexion, 
+            "UPDATE producto p
+             LEFT JOIN inventario i ON p.codproducto = i.codproducto
+             SET p.estado = 1, i.estado = 1
+             WHERE p.codproducto = $id");
+        
+        return $query;
+    }
+
 }
 ?>

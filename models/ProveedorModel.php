@@ -54,5 +54,11 @@ class ProveedorModel {
         $query = mysqli_query($this->conexion, "UPDATE proveedores SET estado = 0 WHERE idproveedor = $id");
         return $query;
     }
+
+    // Activar un proveedor (cambia su estado a inactivo)
+    public function activarProveedor($id) {
+        $query = mysqli_query($this->conexion, "UPDATE proveedores SET estado = 1 WHERE idproveedor = $id");
+        return $query;
+    }
 }
 ?>

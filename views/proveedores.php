@@ -42,6 +42,10 @@
                                 <a href="index.php?action=eliminar_proveedor&id=<?php echo $data['idproveedor']; ?>" class="btn btn-danger">
                                     <i class="fas fa-trash"></i> Eliminar
                                 </a>
+                                <?php else : ?>
+                                <a href="index.php?action=activar_proveedor&id=<?php echo $data['idproveedor']; ?>" class="btn btn-primary">
+                                <i class="fas fa-check"></i> Activar
+                                </a>
                             <?php endif; ?>
                         </td>
                     </tr>

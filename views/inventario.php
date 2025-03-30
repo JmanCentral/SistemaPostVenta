@@ -36,9 +36,6 @@
                                 <a href="index.php?action=editar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-success">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
-                                <a href="index.php?action=eliminar_inventario&id=<?php echo $row['idinventario']; ?>" class="btn btn-danger">
-                                    <i class="fas fa-trash"></i> Eliminar
-                                </a>
                             <?php endif; ?>
                         </td>
                     </tr>

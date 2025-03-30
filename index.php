@@ -19,10 +19,12 @@ $routes = [
     'activarCliente' => ['controller' => 'ClienteController', 'method' => 'activarCLiente'],
     'proveedores' => ['controller' => 'ProveedorController', 'method' => 'index'], // Mostrar proveedores
     'editar_proveedor' => ['controller' => 'ProveedorController', 'method' => 'editar'], // Editar proveedor
-    'eliminar_proveedor' => ['controller' => 'ProveedorController', 'method' => 'eliminar'], 
+    'eliminar_proveedor' => ['controller' => 'ProveedorController', 'method' => 'eliminar'],
+    'activar_proveedor' => ['controller' => 'ProveedorController', 'method' => 'activarProveedor'],
     'productos' => ['controller' => 'ProductoController', 'method' => 'index'],
     'editar_producto' => ['controller' => 'ProductoController', 'method' => 'editar'],
     'eliminar_producto' => ['controller' => 'ProductoController', 'method' => 'eliminar'],
+    'activar_producto' => ['controller' => 'ProductoController', 'method' => 'activarProducto'],
     'inventario' => ['controller' => 'InventarioController', 'method' => 'index'], // Mostrar inventario
     'editar_inventario' => ['controller' => 'InventarioController', 'method' => 'editar'], // Editar inventario
     'eliminar_inventario' => ['controller' => 'InventarioController', 'method' => 'eliminar'],

@@ -51,7 +51,7 @@ class InventarioController {
 
                 if ($inventarioExistente) {
                     // Si existe, actualizar la cantidad
-                    $result = $this->inventarioModel->actualizarInventario($codproducto, $idproveedor, $cantidad);
+                    $result = $this->inventarioModel->actualizarCantidadInventario($codproducto, $idproveedor, $cantidad);
                     if ($result) {
                         $alert = '<div class="alert alert-success" role="alert">Inventario actualizado correctamente</div>';
                     } else {

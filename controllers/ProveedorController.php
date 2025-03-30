@@ -154,5 +154,32 @@ class ProveedorController {
             exit();
         }
     }
+
+    public function activarProveedor() {
+        // Verificar permisos
+        $id_user = $_SESSION['idUser'];
+        $permiso = "proveedores";
+        $existe = $this->proveedorModel->verificarPermisos($id_user, $permiso);
+
+        if (empty($existe) && $id_user != 1) {
+            header("Location: permisos.php");
+            exit();
+        }
+
+        // Eliminar proveedor (cambiar estado a inactivo)
+        if (!empty($_GET['id'])) {
+            $id = $_GET['id'];
+            $result = $this->proveedorModel->activarProveedor($id);
+            if ($result) {
+                header("Location: index.php?action=proveedores");
+                exit();
+            } else {
+                echo "Error al eliminar el proveedor.";
+            }
+        } else {
+            header("Location: index.php?action=proveedores");
+            exit();
+        }
+    }
 }
 ?>

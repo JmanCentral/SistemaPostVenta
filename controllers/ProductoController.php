@@ -198,5 +198,32 @@ class ProductoController {
             exit();
         }
     }
+
+    public function activarProducto() {
+        // Verificar permisos
+        $id_user = $_SESSION['idUser'];
+        $permiso = "productos";
+        $existe = $this->productoModel->verificarPermisos($id_user, $permiso);
+
+        if (empty($existe) && $id_user != 1) {
+            header("Location: permisos.php");
+            exit();
+        }
+
+        // Eliminar producto (cambiar estado a inactivo)
+        if (!empty($_GET['id'])) {
+            $id = $_GET['id'];
+            $result = $this->productoModel->activarProducto($id);
+            if ($result) {
+                header("Location: index.php?action=productos");
+                exit();
+            } else {
+                echo "Error al eliminar el producto.";
+            }
+        } else {
+            header("Location: index.php?action=productos");
+            exit();
+        }
+    }
 }
 ?>
