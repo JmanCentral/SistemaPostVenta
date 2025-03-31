@@ -103,6 +103,8 @@ class InventarioController {
     
         // Obtener datos del registro de inventario para mostrar en el formulario
         $data_inventario = $this->inventarioModel->obtenerInventarioPorId($id);
+
+
     
         // Verificar si el registro existe
         if (!$data_inventario) {

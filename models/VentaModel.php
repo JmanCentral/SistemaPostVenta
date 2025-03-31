@@ -39,7 +39,7 @@ class VentaModel {
         $query = $this->conexion->query("SELECT p.*, SUM(i.cantidad) AS stock 
                                        FROM producto p 
                                        LEFT JOIN inventario i ON p.codproducto = i.codproducto 
-                                       WHERE (p.codigo LIKE '%$nombre%' OR p.descripcion LIKE '%$nombre%') AND p.estado = 1 
+                                       WHERE (p.codigo LIKE '%$nombre%' OR p.descripcion LIKE '%$nombre%') 
                                        GROUP BY p.codproducto");
         while ($row = $query->fetch_assoc()) {
             $data = [

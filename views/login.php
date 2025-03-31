@@ -9,38 +9,9 @@
     <meta name="author" content="" />
     <title>Iniciar Sessión</title>
     <link href="assets/css/styles.css" rel="stylesheet" />
+    <link href="assets/css/coins.css" rel="stylesheet" />
     <script src="assets/js/all.min.js" crossorigin="anonymous"></script>
-    <style>
-        /* Estilo para el fondo animado de monedas */
-        .coin-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: -1;
-        background-color:rgb(15, 51, 80); /* Color de fondo detrás de las monedas */
-    }
-        
-        .coin {
-            position: absolute;
-            display: block;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, gold 30%, goldenrod 70%);
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-            animation: fall linear infinite;
-            opacity: 0.7;
-        }
-        
-        @keyframes fall {
-            to {
-                transform: translateY(100vh);
-            }
-        }
-    </style>
+
 </head>
 
 <body class="bg-primary">
@@ -85,53 +56,8 @@
     <script src="assets/js/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
     <script src="assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="assets/js/scripts.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    const coinBackground = document.getElementById('coinBackground');
-    const coinCount = 30; // Número de monedas
-    
-    for (let i = 0; i < coinCount; i++) {
-        createCoin();
-    }
+    <script src="assets/js/coins.js"></script> 
 
-    function createCoin() {
-        const coin = document.createElement('div');
-        coin.classList.add('coin');
-
-        // Configurar propiedades iniciales
-        resetCoin(coin);
-
-        // Añadir la moneda al fondo
-        coinBackground.appendChild(coin);
-
-        // Evento cuando termina la animación
-        coin.addEventListener('animationend', function() {
-            resetCoin(coin);
-        });
-    }
-
-    function resetCoin(coin) {
-        // Nueva posición horizontal aleatoria
-        const posX = Math.random() * 100;
-        coin.style.left = `${posX}%`;
-
-        // Nuevo tamaño
-        const size = Math.random() * 20 + 10;
-        coin.style.width = `${size}px`;
-        coin.style.height = `${size}px`;
-
-        // Nueva duración
-        const duration = Math.random() * 10 + 5;
-        coin.style.animationDuration = `${duration}s`;
-
-        // Reiniciar la animación
-        coin.style.animation = 'none';
-        void coin.offsetWidth; // Forzar reflujo para reiniciar animación
-        coin.style.animation = `fall ${duration}s linear infinite`;
-    }
-});
-
-    </script>
 </body>
 
 </html>

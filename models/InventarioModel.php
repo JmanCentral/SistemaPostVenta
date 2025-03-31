@@ -72,6 +72,7 @@ class InventarioModel {
         $query = mysqli_query($this->conexion, "SELECT * FROM inventario WHERE idinventario = $id");
         return mysqli_fetch_assoc($query);
     }
+    
 
     // Eliminar un registro de inventario (cambiar estado a inactivo)
     public function eliminarInventario($id) {
@@ -79,5 +80,16 @@ class InventarioModel {
         return $query;
     }
 
+    public function verificarProductoInactivo($id) {
+        $query = mysqli_query($this->conexion, "SELECT p.estado 
+                                                FROM inventario i
+                                                INNER JOIN producto p ON i.codproducto = p.codproducto
+                                                WHERE i.idinventario = $id");
+        $resultado = mysqli_fetch_assoc($query);
+        
+        return $resultado ? $resultado['estado'] : null; // Devuelve el estado o null si no hay resultados
+    }
+    
+    
 }
 ?>

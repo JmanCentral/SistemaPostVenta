@@ -143,7 +143,7 @@
                     </div>
                     <div class="form-group">
                         <label>Precio Unitario</label>
-                        <input type="number" class="form-control" id="precio_producto" step="0.01" min="0.01" required>
+                        <input type="number" class="form-control" id="precio_producto" step="0.01" min="0.01" disabled required>
                     </div>
                     <div class="form-group">
                         <label>Stock disponible: <span id="stock_disponible">0</span></label>
