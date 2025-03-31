@@ -35,6 +35,11 @@ class ClienteModel {
         return $query;
     }
 
+    public function obtenerClientesInactivos() {
+        $query = mysqli_query($this->conexion, "SELECT * FROM cliente WHERE estado = 0");
+        return $query;
+    }
+
     // Obtiene un cliente por su ID
     public function obtenerClientePorId($id) {
         $query = mysqli_query($this->conexion, "SELECT * FROM cliente WHERE idcliente = $id");

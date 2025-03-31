@@ -67,3 +67,42 @@ function agregarNuevoInventarioAVista(data) {
         </tr>`;
     $('#tabla-inventario tbody').append(nuevaFila);
 }
+
+
+$(document).ready(function () {
+    $("#formInventario").submit(function (event) {
+        event.preventDefault(); // Evita la recarga de la página
+
+        $.ajax({
+            url: "index.php?action=inventario",
+            type: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (response) {
+                Swal.fire({
+                    position: 'center',
+                    icon: response.status === "success" ? 'success' : 'error',
+                    title: response.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+
+                if (response.status === "success") {
+                    setTimeout(() => {
+                        location.reload(); // Recargar la página solo si fue exitoso
+                    }, 2000);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("Error AJAX:", xhr.responseText);
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Error en la solicitud AJAX"
+                });
+            }
+        });
+    });
+});
+
+

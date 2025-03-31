@@ -44,6 +44,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="assets/css/charts.css"></script>
 <script src="assets/js/charts.js"></script>
+<script src="assets/js/inventario.js"></script>
 </body>
 
 </html>

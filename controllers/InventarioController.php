@@ -26,6 +26,7 @@ class InventarioController {
 
         // Procesar formulario de nuevo registro de inventario
         $alert = "";
+        // Procesar formulario de nuevo registro de inventario
         if (!empty($_POST)) {
             $codproducto = $_POST['codproducto'];
             $idproveedor = $_POST['idproveedor'];
@@ -50,13 +51,9 @@ class InventarioController {
                 $inventarioExistente = $this->inventarioModel->verificarInventario($codproducto, $idproveedor);
 
                 if ($inventarioExistente) {
-                    // Si existe, actualizar la cantidad
-                    $result = $this->inventarioModel->actualizarCantidadInventario($codproducto, $idproveedor, $cantidad);
-                    if ($result) {
-                        $alert = '<div class="alert alert-success" role="alert">Inventario actualizado correctamente</div>';
-                    } else {
-                        $alert = '<div class="alert alert-danger" role="alert">Error al actualizar el inventario</div>';
-                    }
+                   
+                    $alert = '<div class="alert alert-danger" role="alert">Error al actualizar el inventario  (producto ya existe con proveedor)</div>';
+                    
                 } else {
                     // Si no existe, insertar un nuevo registro
                     $result = $this->inventarioModel->insertarInventario($codproducto, $idproveedor, $cantidad, $usuario_id);
@@ -68,6 +65,7 @@ class InventarioController {
                 }
             }
         }
+
 
         // Obtener todos los registros de inventario para la tabla
         $inventario = $this->inventarioModel->obtenerInventario();

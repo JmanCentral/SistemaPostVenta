@@ -17,6 +17,7 @@ $routes = [
     'editar_cliente' => ['controller' => 'ClienteController', 'method' => 'editar'], // Editar cliente
     'eliminar_cliente' => ['controller' => 'ClienteController', 'method' => 'eliminar'], 
     'activarCliente' => ['controller' => 'ClienteController', 'method' => 'activarCLiente'],
+    'obtenerClienteInactivo' => ['controller' => 'ClienteController', 'method' => 'obtenerClientesInactivos'],
     'proveedores' => ['controller' => 'ProveedorController', 'method' => 'index'], // Mostrar proveedores
     'editar_proveedor' => ['controller' => 'ProveedorController', 'method' => 'editar'], // Editar proveedor
     'eliminar_proveedor' => ['controller' => 'ProveedorController', 'method' => 'eliminar'],

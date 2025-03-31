@@ -39,7 +39,6 @@
                 <th>Producto</th>
                 <th>Precio Compra</th>
                 <th>Precio Venta</th>
-                <th>Stock</th>
                 <th>Imagen</th>
                 <th>Estado</th>
                 <th>Acciones</th>
@@ -54,7 +53,6 @@
                         <td><?php echo $data['descripcion']; ?></td>
                         <td><?php echo number_format($data['precio_compra'], 2); ?></td>
                         <td><?php echo number_format($data['precio_venta'], 2); ?></td>
-                        <td><?php echo $data['stock'] ?? 0; ?></td>
                         <td>
                             <?php if (!empty($data['imagen'])) : ?>
                                 <img src="<?php echo $data['imagen']; ?>" alt="Imagen del producto">
