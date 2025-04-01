@@ -8,6 +8,7 @@
             <tr>
                 <th>#</th>
                 <th>Producto</th>
+                <th>Proveedor</th>
                 <th>Stock Disponible</th>
             </tr>
         </thead>
@@ -17,6 +18,7 @@
                     <tr>
                         <td><?= htmlspecialchars($row['codproducto']) ?></td>
                         <td><?= htmlspecialchars($row['descripcion']) ?></td>
+                        <td><?= htmlspecialchars($row['proveedor']) ?></td>
                         <td>
                             <span style="color: <?= $row['cantidad'] < 5 ? 'red' : 'orange' ?>; font-weight: bold;">
                                 <?= htmlspecialchars($row['cantidad']) ?>

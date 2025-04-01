@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <label for="usuario">Usuario</label>
-                        <input type="text" class="form-control" placeholder="Ingrese Usuario" name="usuario" id="usuario">
+                        <input type="text" class="form-control" placeholder="Ingrese el álias para el usuario " name="usuario" id="usuario">
                     </div>
                     <div class="form-group">
                         <label for="clave">Contraseña</label>

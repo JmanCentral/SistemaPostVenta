@@ -275,5 +275,12 @@ class VentaModel {
         return $result['tipo_pago'] ?? '';
     }
 
+    public function AnularVenta($idVenta){
+
+        
+    }
+
+
+
 }
 ?>

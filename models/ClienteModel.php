@@ -1,11 +1,31 @@
 <?php
 require_once 'config/database.php'; // Asegúrate de incluir la conexión a la base de datos
+require_once 'services/ZeroBounceService.php';
 
 class ClienteModel {
     private $conexion;
 
     public function __construct() {
         $this->conexion = getConnection(); // Obtiene la conexión a la base de datos
+        $this->zeroBounce = new ZeroBounceService('{API_KEY}');
+    }
+
+    private function validarEmail($email) {
+        $response = $this->zeroBounce->validateEmail($email);
+        
+        if ($response === null) {
+            return ['valido' => false, 'error' => 'No se pudo conectar con el servicio de validación'];
+        }
+        
+        // Estados considerados como "válidos" (puedes ajustar según tus necesidades)
+        $estadosValidos = ['valid', 'catch-all'];
+        
+        return [
+            'valido' => in_array($response['status'], $estadosValidos),
+            'status' => $response['status'],
+            'sub_status' => $response['sub_status'] ?? null,
+            'response' => $response
+        ];
     }
 
     // Verifica si el cliente ya existe
@@ -24,8 +44,17 @@ class ClienteModel {
 
     // Inserta un nuevo cliente
     public function insertarCliente($nombre, $apellido, $identificacion, $telefono, $direccion, $email, $usuario_id) {
+        // Validar el email primero
+        $validacion = $this->validarEmail($email);
+        
+        if (!$validacion['valido']) {
+            throw new Exception("Email no válido. Estado: " . $validacion['status'] . 
+                              ($validacion['sub_status'] ? " (" . $validacion['sub_status'] . ")" : ""));
+        }
+        
+        // Si el email es válido, proceder con la inserción
         $query = mysqli_query($this->conexion, "INSERT INTO cliente(nombre, apellido, identificacion, telefono, direccion, email, usuario_id) 
-                                                VALUES ('$nombre', '$apellido', '$identificacion', '$telefono', '$direccion', '$email', '$usuario_id')");
+                                              VALUES ('$nombre', '$apellido', '$identificacion', '$telefono', '$direccion', '$email', '$usuario_id')");
         return $query;
     }
 

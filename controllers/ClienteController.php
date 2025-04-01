@@ -34,22 +34,28 @@ class ClienteController {
                 $direccion = $_POST['direccion'];
                 $email = $_POST['email'];
                 $usuario_id = $_SESSION['idUser'];
-
+    
                 // Verificar si el cliente ya existe
                 $result = $this->clienteModel->verificarCliente($identificacion);
                 if ($result) {
                     $alert = '<div class="alert alert-warning" role="alert">El cliente ya existe</div>';
                 } else {
-                    // Insertar nuevo cliente
-                    $query_insert = $this->clienteModel->insertarCliente($nombre, $apellido, $identificacion, $telefono, $direccion, $email, $usuario_id);
-                    if ($query_insert) {
-                        $alert = '<div class="alert alert-success" role="alert">Cliente registrado</div>';
-                    } else {
-                        $alert = '<div class="alert alert-danger" role="alert">Error al registrar</div>';
+                    try {
+                        // Insertar nuevo cliente (esto ahora lanzará excepción si el email no es válido)
+                        $query_insert = $this->clienteModel->insertarCliente($nombre, $apellido, $identificacion, $telefono, $direccion, $email, $usuario_id);
+                        if ($query_insert) {
+                            $alert = '<div class="alert alert-success" role="alert">Cliente registrado</div>';
+                        } else {
+                            $alert = '<div class="alert alert-danger" role="alert">Error al registrar</div>';
+                        }
+                    } catch (Exception $e) {
+                        // Capturar excepción de email no válido
+                        $alert = '<div class="alert alert-danger" role="alert">Error: ' . $e->getMessage() . '</div>';
                     }
                 }
             }
         }
+    
 
         // Obtener todos los clientes para la tabla
         $clientes = $this->clienteModel->obtenerClientes();

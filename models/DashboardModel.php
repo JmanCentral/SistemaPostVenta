@@ -124,15 +124,15 @@ class DashboardModel {
     }
 
     function obtenerProductosStockBajo() {
-
         $conexion = getConnection();
-
-        $sql = "SELECT i.codproducto, p.descripcion, i.cantidad 
+    
+        $sql = "SELECT i.codproducto, p.descripcion, i.cantidad, pr.nombre AS proveedor
                 FROM inventario i
                 INNER JOIN producto p ON i.codproducto = p.codproducto
+                INNER JOIN proveedores pr ON i.idproveedor = pr.idproveedor
                 WHERE i.cantidad <= 10 AND p.estado = 1";
         
-        $resultado = $conexion ->query($sql);
+        $resultado = $conexion->query($sql);
     
         $productos = [];
         while ($fila = $resultado->fetch_assoc()) {
@@ -141,6 +141,6 @@ class DashboardModel {
     
         return $productos;
     }
-
+    
 }
 ?>
