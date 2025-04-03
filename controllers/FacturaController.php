@@ -28,16 +28,36 @@ class FacturaController {
     }
 
     public function delete() {
-        if (isset($_POST['id'])) {
-            $id = (int)$_POST['id'];
-            if ($this->model->deleteVenta($id)) {
-                $_SESSION['message'] = "Venta eliminada correctamente";
-            } else {
-                $_SESSION['error'] = "Error al eliminar la venta";
+        // Asegurar respuesta JSON
+        header('Content-Type: application/json');
+        ob_clean(); 
+    
+        try {
+            $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+            if (!$id) {
+                throw new Exception("ID de venta no proporcionado o inválido.");
             }
-            header("Location: index.php?action=facturas");
-            exit();
+    
+            // Intentar eliminar la venta
+            $this->model->EliminarVenta($id);
+    
+            echo json_encode([
+                'success' => true,
+                'message' => 'Venta eliminada correctamente.',
+                'redirect' => 'index.php?action=facturas'
+            ]);
+        } catch (Exception $e) {
+            // Registrar error y devolver JSON
+            $this->registrarError('Error al eliminar venta', $e->getMessage());
+    
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
         }
+    
+        exit();
     }
+    
 }
 ?>

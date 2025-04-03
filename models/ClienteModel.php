@@ -7,7 +7,7 @@ class ClienteModel {
 
     public function __construct() {
         $this->conexion = getConnection(); // Obtiene la conexión a la base de datos
-        $this->zeroBounce = new ZeroBounceService('{API_KEY}');
+        $this->zeroBounce = new ZeroBounceService('cb9caa09ea224fc0a2edc52617447690');
     }
 
     private function validarEmail($email) {

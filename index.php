@@ -44,6 +44,7 @@ $routes = [
     'generar_pdf' => ['controller' => 'VentaController', 'method' => 'generarPdf'],
     'generar_pdf_fisico' => ['controller' => 'VentaController', 'method' => 'generarPdffisico'],
     'facturas' => ['controller' => 'FacturaController', 'method' => 'index'],
+    'deleteVenta' => ['controller' => 'FacturaController', 'method' => 'delete'],
     'stock' => ['controller' => 'DashboardController', 'method' => 'stock_bajo'],
 ];
 
