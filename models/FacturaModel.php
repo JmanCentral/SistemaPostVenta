@@ -32,10 +32,11 @@ class FacturaModel {
     
         try {
             // Paso 1: Obtener los productos vendidos y sus cantidades junto con su proveedor
-            $query = "SELECT dv.id_producto, dv.cantidad, i.idproveedor 
-                      FROM detalle_venta dv
-                      JOIN inventario i ON dv.id_producto = i.codproducto
-                      WHERE dv.id_venta = ?";
+            $query = "SELECT i.idinventario, dv.id_producto, dv.cantidad, i.idproveedor 
+            FROM detalle_venta dv
+            JOIN inventario i ON dv.id_producto = i.codproducto
+            WHERE dv.id_venta = ?
+            LIMIT 1";
             $stmt = $this->conexion->prepare($query);
             $stmt->bind_param("i", $idVenta);
             $stmt->execute();
