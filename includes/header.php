@@ -14,7 +14,8 @@ if (empty($_SESSION['active'])) {
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Panel de Administración</title>
-    <link href="assets/css/estilos.css" rel="stylesheet" />
+    <link href="assets/css/design.css" rel="stylesheet" />
+    <link href="assets/css/tablas.css" rel="stylesheet" />
     <link href="assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <link rel="stylesheet" href="assets/js/jquery-ui/jquery-ui.min.css">
     <script src="assets/js/all.min.js" crossorigin="anonymous"></script>

@@ -1,26 +1,6 @@
 <?php include_once "includes/header.php"; ?>
 
 
-<!-- Estilos CSS personalizados -->
-<style>
-    /* Aumentar el tamaño de las filas y celdas */
-    .tabla-productos tbody tr {
-        height: 100px; /* Altura de cada fila */
-    }
-
-    .tabla-productos tbody td {
-        vertical-align: middle; /* Centrar el contenido verticalmente */
-    }
-
-    /* Ajustar el tamaño de las imágenes */
-    .tabla-productos tbody img {
-        max-height: 80px; /* Altura máxima de la imagen */
-        width: auto; /* Ancho automático para mantener la proporción */
-        display: block; /* Evitar espacios no deseados */
-        margin: 0 auto; /* Centrar la imagen horizontalmente */
-    }
-</style>
-
 <!-- Botón para abrir el modal de nuevo producto -->
 <button class="btn btn-primary mb-2" type="button" data-toggle="modal" data-target="#nuevo_producto">
     <i class="fas fa-plus"></i> Nuevo Producto
@@ -32,7 +12,7 @@
 <!-- Tabla de productos -->
 <div class="table-responsive">
     <table class="table table-striped table-bordered tabla-productos" id="tbl">
-        <thead class="thead-dark">
+        <thead class="mi-encabezado">
             <tr>
                 <th>#</th>
                 <th>Código</th>

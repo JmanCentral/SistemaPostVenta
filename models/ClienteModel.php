@@ -29,8 +29,8 @@ class ClienteModel {
     }
 
     // Verifica si el cliente ya existe
-    public function verificarCliente($identificacion) {
-        $query = mysqli_query($this->conexion, "SELECT * FROM cliente WHERE identificacion = '$identificacion'");
+    public function verificarCliente($identificacion , $email) {
+        $query = mysqli_query($this->conexion, "SELECT * FROM cliente WHERE identificacion = '$identificacion' AND email ='$email'");
         return mysqli_fetch_array($query);
     }
 

@@ -1,7 +1,7 @@
 <?php include_once "includes/header.php"; ?>
 
 <!-- Botón para agregar nuevo usuario -->
-<button class="btn-usuario" type="button" data-toggle="modal" data-target="#nuevo_usuario">
+<button class="btn-primary" type="button" data-toggle="modal" data-target="#nuevo_usuario">
     <i class="fas fa-plus"></i> Nuevo Usuario
 </button>
 
@@ -9,7 +9,7 @@
 <div id="nuevo_usuario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header btn-primary text-white">
                 <h5 class="modal-title" id="my-modal-title">Nuevo Usuario</h5>
                 <button class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

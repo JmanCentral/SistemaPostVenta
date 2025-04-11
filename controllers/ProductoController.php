@@ -11,6 +11,12 @@ class ProductoController {
 
     public function index() {
         // Verificar permisos
+        if (isset($_SESSION['idUser'])) {
+            ini_set('display_errors', 0); 
+        } else {
+            echo "⚠️ Por favor inicia sesión.";
+        }
+
         $id_user = $_SESSION['idUser'];
         $permiso = "productos";
         $existe = $this->productoModel->verificarPermisos($id_user, $permiso);
@@ -80,6 +86,13 @@ class ProductoController {
 
     public function editar() {
         // Verificar permisos
+
+        if (isset($_SESSION['idUser'])) {
+            ini_set('display_errors', 0); 
+        } else {
+            echo "⚠️ Por favor inicia sesión.";
+        }
+
         $id_user = $_SESSION['idUser'];
         $permiso = "productos";
         $existe = $this->productoModel->verificarPermisos($id_user, $permiso);
@@ -201,6 +214,7 @@ class ProductoController {
 
     public function activarProducto() {
         // Verificar permisos
+
         $id_user = $_SESSION['idUser'];
         $permiso = "productos";
         $existe = $this->productoModel->verificarPermisos($id_user, $permiso);

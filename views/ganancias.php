@@ -2,7 +2,7 @@
 
 <div class="table-responsive">
     <table class="table table-light" id="tbl">
-        <thead class="thead-dark">
+        <thead class="mi-encabezado">
             <tr>
                 <th>#</th>
                 <th>Producto</th>

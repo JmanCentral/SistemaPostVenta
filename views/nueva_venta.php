@@ -51,7 +51,7 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-primary text-white text-center">
+            <div class="card-header bg-dialog text-white text-center">
                 Datos Venta
             </div>
             <div class="card-body">
@@ -98,7 +98,7 @@
         </div>
         <div class="table-responsive">
             <table class="table table-hover" id="tblDetalle">
-                <thead class="thead-dark">
+                <thead class="mi-encabezado">
                     <tr>
                         <th>Id</th>
                         <th>Descripción<th>Cantidad</th>

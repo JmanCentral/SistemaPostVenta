@@ -11,6 +11,15 @@ class InventarioController {
 
     public function index() {
         // Verificar permisos
+        if (isset($_SESSION['idUser'])) {
+            ini_set('display_errors', 0); 
+        } else {
+            echo "⚠️ Por favor inicia sesión.";
+        }
+
+
+        $this->id_user = $_SESSION['idUser'] ?? null;
+
         $id_user = $_SESSION['idUser'];
         $permiso = "inventario";
         $existe = $this->inventarioModel->verificarPermisos($id_user, $permiso);

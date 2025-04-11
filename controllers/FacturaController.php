@@ -9,11 +9,20 @@ class FacturaController {
 
     public function __construct() {
         $this->model = new FacturaModel();
-        $this->id_user = $_SESSION['idUser'] ?? null;
     }
 
     public function index() {
         // Verify permissions
+
+        if (isset($_SESSION['idUser'])) {
+            ini_set('display_errors', 0); 
+        } else {
+            echo "⚠️ Por favor inicia sesión.";
+        }
+
+
+        $this->id_user = $_SESSION['idUser'] ?? null;
+
         $permiso = "ventas";
         $existe = $this->model->verificarPermisos($this->id_user, $permiso);
 

@@ -14,7 +14,7 @@
 <!-- Tabla de clientes -->
 <div class="table-responsive">
     <table class="table table-striped table-bordered" id="tbl">
-        <thead class="thead-dark">
+        <thead class="mi-encabezado">
             <tr>
                 <th>#</th>
                 <th>Nombre</th>

@@ -4,7 +4,7 @@
 
 <?php if (!empty($ventas)): ?>
 <table class="table table-light" id="tbl">
-    <thead class="thead-dark">
+    <thead class="mi-encabezado">
         <tr>
             <th>#</th>
             <th>Cliente</th>

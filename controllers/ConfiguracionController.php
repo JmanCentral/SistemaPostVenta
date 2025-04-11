@@ -11,6 +11,12 @@ class ConfiguracionController {
 
     public function index() {
         // Verificar permisos
+        if (isset($_SESSION['idUser'])) {
+            ini_set('display_errors', 0); 
+        } else {
+            echo "⚠️ Por favor inicia sesión.";
+        }
+
         $id_user = $_SESSION['idUser'];
         $permiso = "configuracion";
         $existe = $this->configuracionModel->verificarPermisos($id_user, $permiso);

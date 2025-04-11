@@ -35,8 +35,6 @@ $mensaje = $_GET['mensaje'] ?? "Ha ocurrido un error inesperado.";
         <p class="<?php echo strpos($mensaje, 'Error') !== false ? 'error' : 'success'; ?>">
             <?php echo htmlspecialchars($mensaje); ?>
         </p>
-        <a href="index.php?action=nueva_venta">Volver al apartado de ventas</a>
-        <a href="/">Descargar factura</a>
     </div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-6 mx-auto">
         <div class="card">
-            <div class="card-header bg-warning text-white">
+            <div class="card-header bg-dialog text-white">
                 Permisos
             </div>
             <div class="card-body">

@@ -11,6 +11,12 @@ class UsuarioController {
 
     public function index() {
         // Verificar permisos
+        if (isset($_SESSION['idUser'])) {
+            ini_set('display_errors', 0); 
+        } else {
+            echo "⚠️ Por favor inicia sesión.";
+        }
+
         $id_user = $_SESSION['idUser'];
         $permiso = "usuarios";
         $existe = $this->usuarioModel->verificarPermisos($id_user, $permiso);
@@ -59,6 +65,13 @@ class UsuarioController {
 
     public function editar() {
         // Verificar permisos
+
+        if (isset($_SESSION['idUser'])) {
+            ini_set('display_errors', 0); 
+        } else {
+            echo "⚠️ Por favor inicia sesión.";
+        }
+
         $id_user = $_SESSION['idUser'];
         $permiso = "usuarios";
         $existe = $this->usuarioModel->verificarPermisos($id_user, $permiso);
