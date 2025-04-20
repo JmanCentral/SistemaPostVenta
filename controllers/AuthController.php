@@ -3,6 +3,7 @@ session_start();
 require_once 'models/UserModel.php';
 
 class AuthController {
+    
     public function login() {
         // Si ya hay una sesión activa, redirigir al dashboar
 

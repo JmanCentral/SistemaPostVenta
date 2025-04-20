@@ -5,10 +5,6 @@
 </button>
 
 
-<a href="index.php?action=obtenerClienteInactivo" class="btn btn-secondary mb-2">
-    <i class="fas fa-search"></i> Buscar Clientes Inactivos
-</a>
-
 <?php echo isset($alert) ? $alert : ''; ?>
 
 <!-- Tabla de clientes -->

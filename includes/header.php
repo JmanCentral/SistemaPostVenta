@@ -31,7 +31,7 @@ if (empty($_SESSION['active'])) {
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-user fa-fw"></i> 
-            <?php echo isset($_SESSION['usuario']) ? "Bienvenido, " . $_SESSION['usuario'] : "Invitado"; ?>
+            <?php echo isset($_SESSION['user']) ? "Bienvenido, " . $_SESSION['user'] : "Invitado"; ?>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#nuevo_pass">Perfil</a>

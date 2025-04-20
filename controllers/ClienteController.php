@@ -74,6 +74,12 @@ class ClienteController {
     }
 
     public function editar() {
+
+        if (isset($_SESSION['idUser'])) {
+            ini_set('display_errors', 0); 
+        } else {
+            echo "⚠️ Por favor inicia sesión.";
+        }
         // Verificar permisos
         $id_user = $_SESSION['idUser'];
         $permiso = "clientes";
