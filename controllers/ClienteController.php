@@ -150,28 +150,51 @@ class ClienteController {
     }
 
     public function eliminar() {
-        // Verificar permisos
+        $this->verificarPermisosJson(); // Método común para verificación
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json');
+            $id = $_POST['id'] ?? null;
+            $tipo = $_POST['tipo'] ?? 'desactivar';
+            
+            if (empty($id)) {
+                echo json_encode(['success' => false, 'message' => 'ID inválido']);
+                exit();
+            }
+            
+            try {
+                if ($tipo === 'eliminar') {
+                    $result = $this->clienteModel->eliminarClienteDefinitivo($id);
+                } else {
+                    $result = $this->clienteModel->eliminarCliente($id);
+                }
+                
+                echo json_encode([
+                    'success' => (bool)$result,
+                    'action' => $tipo,
+                    'message' => $result ? 'Operación exitosa' : 'Error en la operación'
+                ]);
+            } catch (Exception $e) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Error del sistema: ' . $e->getMessage()
+                ]);
+            }
+            exit();
+        }
+        
+        header("Location: index.php?action=clientes");
+        exit();
+    }
+    
+    private function verificarPermisosJson() {
         $id_user = $_SESSION['idUser'];
         $permiso = "clientes";
         $existe = $this->clienteModel->verificarPermisos($id_user, $permiso);
-
+    
         if (empty($existe) && $id_user != 1) {
-            header("Location: permisos.php");
-            exit();
-        }
-
-        // Eliminar cliente (cambiar estado a inactivo)
-        if (!empty($_GET['id'])) {
-            $id = $_GET['id'];
-            $result = $this->clienteModel->eliminarCliente($id);
-            if ($result) {
-                header("Location: index.php?action=clientes");
-                exit();
-            } else {
-                echo "Error al eliminar el cliente.";
-            }
-        } else {
-            header("Location: index.php?action=clientes");
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Sin permisos']);
             exit();
         }
     }
@@ -187,20 +210,22 @@ class ClienteController {
             exit();
         }
 
-        // Actualizar cliente (cambiar estado a inactivo)
-        if (!empty($_GET['id'])) {
-            $id = $_GET['id'];
-            $result = $this->clienteModel->activarCliente($id);
-            if ($result) {
-                header("Location: index.php?action=clientes");
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json');
+            $id = $_POST['id'] ?? null;
+            
+            if (empty($id)) {
+                echo json_encode(['success' => false, 'message' => 'ID inválido']);
                 exit();
-            } else {
-                echo "Error al activar el cliente.";
             }
-        } else {
-            header("Location: index.php?action=clientes");
+            
+            $result = $this->clienteModel->activarCliente($id);
+            echo json_encode(['success' => $result, 'action' => 'activar']);
             exit();
         }
+        
+        header("Location: index.php?action=clientes");
+        exit();
     }
 
     public function obtenerClientesInactivos() {

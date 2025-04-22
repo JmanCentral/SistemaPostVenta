@@ -36,18 +36,25 @@
                         <td><?php echo $data['email']; ?></td>
                         <td><?php echo ($data['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?></td>
                         <td>
-    <?php if ($data['estado'] == 1) : ?>
-        <a href="index.php?action=editar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-success">
-            <i class="fas fa-edit"></i> Editar
-        </a>
-        <a href="index.php?action=eliminar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-danger">
-            <i class="fas fa-trash"></i> Eliminar
-        </a>
-    <?php else : ?>
-        <a href="index.php?action=activarCliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-primary">
-            <i class="fas fa-check"></i> Activar
-        </a>
-    <?php endif; ?>
+                        <?php if ($data['estado'] == 1) : ?>
+    <!-- Botón Editar (se mantiene igual) -->
+    <a href="index.php?action=editar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-success">
+        <i class="fas fa-edit"></i> Editar
+    </a>
+    
+    <!-- Nuevo botón Eliminar con JavaScript -->
+    <button onclick="confirmarEliminacion(<?php echo $data['idcliente']; ?>)" 
+            class="btn btn-danger">
+        <i class="fas fa-trash"></i> Eliminar
+    </button>
+    
+<?php else : ?>
+    <!-- Botón Activar (ahora también con AJAX) -->
+    <button onclick="activarCliente(<?php echo $data['idcliente']; ?>)" 
+            class="btn btn-primary">
+        <i class="fas fa-check"></i> Activar
+    </button>
+<?php endif; ?>
 </td>
                     </tr>
                 <?php endwhile; ?>

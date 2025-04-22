@@ -89,6 +89,11 @@ class ClienteModel {
         return $query;
     }
 
+    public function eliminarClienteDefinitivo($id) {
+        $query = mysqli_query($this->conexion, "DELETE FROM cliente WHERE idcliente = $id");
+        return $query;
+    }
+
     public function activarCliente($id) {
 
         $query = mysqli_query($this->conexion, "UPDATE cliente SET estado = 1 WHERE idcliente = $id");
