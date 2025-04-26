@@ -14,7 +14,8 @@ if (empty($_SESSION['active'])) {
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Panel de Administración</title>
-    <link href="assets/css/design.css" rel="stylesheet" />
+    <link href="assets/css/estilos.css" rel="stylesheet" />
+    <link href="assets/css/productos.css" rel="stylesheet" />
     <link href="assets/css/tablas.css" rel="stylesheet" />
     <link href="assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <link rel="stylesheet" href="assets/js/jquery-ui/jquery-ui.min.css">
@@ -70,8 +71,13 @@ if (empty($_SESSION['active'])) {
                         </a>
 
                         <a class="nav-link" href="index.php?action=utilidades">
-                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave"></i></div>
                             Ganacias
+                        </a>
+
+                        <a class="nav-link" href="index.php?action=gananciasTotales">
+                            <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave"></i></div>
+                            Ganacias Totales
                         </a>
 
                         <a class="nav-link" href="index.php?action=productos">
@@ -79,7 +85,7 @@ if (empty($_SESSION['active'])) {
                             Productos
                         </a>
                         <a class="nav-link" href="index.php?action=inventario">
-                            <div class="sb-nav-link-icon"><i class="fab fa-product-hunt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
                             Inventario
                         </a>
 

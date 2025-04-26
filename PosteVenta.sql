@@ -44,6 +44,8 @@ CREATE TABLE `detalle_venta` (
   `id_venta` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `tipo_pago` ENUM('Efectivo', 'Tarjeta', 'Nequi') NOT NULL DEFAULT 'Efectivo',
+  `precio_compra_historico` DECIMAL(10,2) NOT NULL,
+  `precio_venta_historico` DECIMAL(10,2) NOT NULL,
   `precio` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -86,6 +88,7 @@ CREATE TABLE `inventario` (
   `cantidad` int(11) NOT NULL,
   `fecha_ingreso` timestamp NOT NULL DEFAULT current_timestamp(),
   `usuario_id` int(11) NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idinventario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 

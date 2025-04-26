@@ -148,5 +148,33 @@ class UsuarioController {
         }
     }
 
+    // Método para activar un usuario
+    public function activar() {
+        // Verificar permisos
+        $id_user = $_SESSION['idUser'];
+        $permiso = "usuarios";
+        $existe = $this->usuarioModel->verificarPermisos($id_user, $permiso);
+
+        if (empty($existe) && $id_user != 1) {
+            header("Location: permisos.php");
+            exit();
+        }
+
+        // Activar usuario
+        if (!empty($_GET['id'])) {
+            $id = $_GET['id'];
+            $result = $this->usuarioModel->activarUsuario($id);
+            if ($result) {
+                header("Location: index.php?action=usuarios");
+                exit();
+            } else {
+                echo "Error al activar el usuario.";
+            }
+        } else {
+            header("Location: usuarios.php");
+            exit();
+        }
+    }
+
 }
 ?>

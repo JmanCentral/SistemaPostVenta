@@ -60,7 +60,7 @@ class ClienteModel {
 
     // Obtiene todos los clientes
     public function obtenerClientes() {
-        $query = mysqli_query($this->conexion, "SELECT * FROM cliente");
+        $query = mysqli_query($this->conexion, "SELECT * FROM cliente ORDER BY estado DESC, nombre ASC, apellido ASC");
         return $query;
     }
 
@@ -77,6 +77,14 @@ class ClienteModel {
 
     // Actualiza un cliente
     public function actualizarCliente($id, $nombre, $apellido, $identificacion, $telefono, $direccion, $email) {
+        // Validar el email primero
+        $validacion = $this->validarEmail($email);
+
+        if (!$validacion['valido']) {
+            throw new Exception("Email no válido. Estado: " . $validacion['status'] . 
+                              ($validacion['sub_status'] ? " (" . $validacion['sub_status'] . ")" : ""));
+        }
+
         $query = mysqli_query($this->conexion, "UPDATE cliente SET nombre = '$nombre', apellido = '$apellido', identificacion = '$identificacion', 
                                                 telefono = '$telefono', direccion = '$direccion', email = '$email' 
                                                 WHERE idcliente = $id");

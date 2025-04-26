@@ -18,8 +18,8 @@
                     <td><?= htmlspecialchars($row['codproducto']) ?></td>
                     <td><?= htmlspecialchars($row['producto']) ?></td>
                     <td><?= htmlspecialchars($row['cantidad_vendida']) ?></td>
-                    <td><?= number_format($row['precio_compra'], 2) ?></td>
-                    <td><?= number_format($row['precio_venta'], 2) ?></td>
+                    <td><?= number_format($row['precio_compra_historico'], 2) ?></td>
+                    <td><?= number_format($row['precio_venta_historico'], 2) ?></td>
                     <td>
                         <span style="color: green; font-weight: bold;">
                             <i class="fas fa-dollar-sign"></i> <?= number_format($row['ganancia'], 2) ?>

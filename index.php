@@ -46,6 +46,8 @@ $routes = [
     'facturas' => ['controller' => 'FacturaController', 'method' => 'index'],
     'deleteVenta' => ['controller' => 'FacturaController', 'method' => 'delete'],
     'stock' => ['controller' => 'DashboardController', 'method' => 'stock_bajo'],
+    'activar_usuario' => ['controller' => 'UsuarioController', 'method' => 'activar'],
+    'gananciasTotales' => ['controller' => 'VentaController', 'method' => 'obtenerUtilidadesTotales'],
 ];
 
 // Verificar si la ruta existe

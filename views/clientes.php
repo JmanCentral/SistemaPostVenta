@@ -9,55 +9,63 @@
 
 <!-- Tabla de clientes -->
 <div class="table-responsive">
-    <table class="table table-striped table-bordered" id="tbl">
-        <thead class="mi-encabezado">
-            <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Identificación</th>
-                <th>Teléfono</th>
-                <th>Dirección</th>
-                <th>Email</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($clientes)) : ?>
-                <?php while ($data = mysqli_fetch_assoc($clientes)) : ?>
-                    <tr>
-                        <td><?php echo $data['idcliente']; ?></td>
-                        <td><?php echo $data['nombre']; ?></td>
-                        <td><?php echo $data['apellido']; ?></td>
-                        <td><?php echo $data['identificacion']; ?></td>
-                        <td><?php echo $data['telefono']; ?></td>
-                        <td><?php echo $data['direccion']; ?></td>
-                        <td><?php echo $data['email']; ?></td>
-                        <td><?php echo ($data['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?></td>
-                        <td>
-    <?php if ($data['estado'] == 1) : ?>
-        <a href="index.php?action=editar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-success">
-            <i class="fas fa-edit"></i> Editar
-        </a>
-        <a href="index.php?action=eliminar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-danger">
-            <i class="fas fa-trash"></i> Eliminar
-        </a>
-    <?php else : ?>
-        <a href="index.php?action=activarCliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-primary">
-            <i class="fas fa-check"></i> Activar
-        </a>
-    <?php endif; ?>
-</td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else : ?>
+        <table class="table table-striped table-bordered" id="tbl">
+            <thead class="mi-encabezado">
                 <tr>
-                    <td colspan="9">No se encontraron clientes.</td>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Identificación</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                    <th>Email</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php if (!empty($clientes)) : ?>
+                    <?php 
+                    // Primero mostramos clientes activos
+                    $active_shown = false;
+                    while ($data = mysqli_fetch_assoc($clientes)) : 
+                        if ($data['estado'] == 1 || !$active_shown) : ?>
+                            <tr>
+                                <td><?php echo $data['idcliente']; ?></td>
+                                <td><?php echo $data['nombre']; ?></td>
+                                <td><?php echo $data['apellido']; ?></td>
+                                <td><?php echo $data['identificacion']; ?></td>
+                                <td><?php echo $data['telefono']; ?></td>
+                                <td><?php echo $data['direccion']; ?></td>
+                                <td><?php echo $data['email']; ?></td>
+                                <td><?php echo ($data['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?></td>
+                                <td>
+                                    <?php if ($data['estado'] == 1) : ?>
+                                        <a href="index.php?action=editar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-success btn-sm" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="index.php?action=eliminar_cliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-danger btn-sm" title="Eliminar">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    <?php else : ?>
+                                        <a href="index.php?action=activarCliente&id=<?php echo $data['idcliente']; ?>" class="btn btn-primary btn-sm" title="Activar">
+                                            <i class="fas fa-check-circle"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php 
+                        if ($data['estado'] != 1) $active_shown = true;
+                        endif; 
+                    endwhile; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="9">No se encontraron clientes.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Modal para nuevo cliente -->

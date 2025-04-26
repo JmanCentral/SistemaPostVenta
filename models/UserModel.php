@@ -64,5 +64,12 @@ class UserModel {
         $sql = mysqli_query($this->conexion, "UPDATE usuario SET estado = 0 WHERE idusuario = $id");
         return ($sql) ? mysqli_affected_rows($this->conexion) > 0 : false;
     }
+
+    // Activa un usuario (cambia su estado a activo)
+    public function activarUsuario($id) {
+        $sql = mysqli_query($this->conexion, "UPDATE usuario SET estado = 1 WHERE idusuario = $id");
+        return ($sql) ? mysqli_affected_rows($this->conexion) > 0 : false;
+    }
+
 }
 ?>

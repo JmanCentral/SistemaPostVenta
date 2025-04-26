@@ -7,7 +7,9 @@
 </button>
 
 <!-- Mostrar alertas -->
-<?php echo isset($alert) ? $alert : ''; ?>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <?php echo isset($alert) ? $alert : ''; ?>
 
 <!-- Tabla de productos -->
 <div class="table-responsive">
@@ -43,15 +45,16 @@
                         <td><?php echo ($data['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?></td>
                         <td>
                             <?php if ($data['estado'] == 1) : ?>
-                                <a href="index.php?action=editar_producto&id=<?php echo $data['codproducto']; ?>" class="btn btn-success">
-                                    <i class="fas fa-edit"></i> Editar
+                                <a href="index.php?action=editar_producto&id=<?php echo $data['codproducto']; ?>" class="btn btn-success" title="Editar">
+                                    <i class="fas fa-edit"></i> 
                                 </a>
-                                <a href="index.php?action=eliminar_producto&id=<?php echo $data['codproducto']; ?>" class="btn btn-danger">
-                                    <i class="fas fa-trash"></i> Eliminar
+                                <a href="index.php?action=eliminar_producto&id=<?php echo $data['codproducto']; ?>" class="btn btn-danger" title="Eliminar">
+                                    <i class="fas fa-trash"></i> 
                                 </a>
                                 <?php else : ?>
-                                <a href="index.php?action=activar_producto&id=<?php echo $data['codproducto']; ?>" class="btn btn-primary">
-                                <i class="fas fa-check"></i> Activar
+                                <a href="index.php?action=activar_producto&id=<?php echo $data['codproducto']; ?>" class="btn btn-primary" title="Activar">
+                                    <i class="fas fa-check-circle"></i>
+                                <i class="fas fa-check"></i> 
                                 </a>
                             <?php endif; ?>
                         </td>
@@ -63,8 +66,12 @@
                 </tr>
             <?php endif; ?>
         </tbody>
-    </table>
+        </table>
+    </div>
+        </div>
+    </div>
 </div>
+
 
 <!-- Modal para agregar nuevo producto -->
 <div id="nuevo_producto" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
@@ -76,6 +83,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
                 <form action="" method="post" autocomplete="off" enctype="multipart/form-data">
                     <?php echo isset($alert) ? $alert : ''; ?>

@@ -1,0 +1,29 @@
+.body-with-bg {
+    position: relative;
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Color de fondo por defecto */
+}
+
+.body-with-bg::before {
+    content: "";
+    background-image: url('../img/productos.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.1;
+    position: fixed; /* Cambiado a fixed para mejor efecto */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.card, .table-responsive, .modal-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+}
+
+.tabla-productos {
+    background-color: rgba(255, 255, 255, 0.95);
+}

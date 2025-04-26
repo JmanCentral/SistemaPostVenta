@@ -146,34 +146,54 @@ class VentaModel {
         if (!$insertar) {
             return ['mensaje' => 'error'];
         }
-
+    
         // Obtener el ID de la venta
         $id_maximo = $this->conexion->query("SELECT MAX(id) AS total FROM ventas");
         $resultId = $id_maximo->fetch_assoc();
         $ultimoId = $resultId['total'];
-
+    
         // Procesar detalles
-        $consultaDetalle = $this->conexion->query("SELECT * FROM detalle_temp WHERE id_usuario = $id_user");
+        $consultaDetalle = $this->conexion->query("SELECT dt.*, p.precio_compra 
+                                                  FROM detalle_temp dt
+                                                  JOIN producto p ON dt.id_producto = p.codproducto
+                                                  WHERE dt.id_usuario = $id_user");
+                                                  
         while ($row = $consultaDetalle->fetch_assoc()) {
             $id_producto = $row['id_producto'];
             $cantidad = $row['cantidad'];
-            $precio = $row['precio_venta'];
-
-            // Insertar detalle
-            $this->conexion->query("INSERT INTO detalle_venta(id_producto, id_venta, cantidad, precio, tipo_pago) VALUES ($id_producto, $ultimoId, $cantidad, '$precio', '$tipo_pago')");
-
+            $precio_venta = $row['precio_venta'];
+            $precio_compra = $row['precio_compra'];
+    
+            // Insertar detalle con precios históricos
+            $this->conexion->query("INSERT INTO detalle_venta(
+                                  id_producto, 
+                                  id_venta, 
+                                  cantidad, 
+                                  tipo_pago, 
+                                  precio,
+                                  precio_compra_historico,
+                                  precio_venta_historico) 
+                                  VALUES (
+                                      $id_producto, 
+                                      $ultimoId, 
+                                      $cantidad, 
+                                      '$tipo_pago', 
+                                      '$precio_venta',
+                                      '$precio_compra',
+                                      '$precio_venta')");
+    
             // Actualizar inventario
             $query_inventario = $this->conexion->query("SELECT * FROM inventario WHERE codproducto = $id_producto ORDER BY cantidad DESC LIMIT 1");
             $inventario = $query_inventario->fetch_assoc();
             $nueva_cantidad = $inventario['cantidad'] - $cantidad;
-
+    
             if ($nueva_cantidad >= 0) {
                 $this->conexion->query("UPDATE inventario SET cantidad = $nueva_cantidad WHERE idinventario = {$inventario['idinventario']}");
             } else {
                 return ['mensaje' => 'No hay suficiente stock para el producto ' . $id_producto];
             }
         }
-
+    
         // Limpiar temporal
         $this->conexion->query("DELETE FROM detalle_temp WHERE id_usuario = $id_user");
         return ['id_cliente' => $id_cliente, 'id_venta' => $ultimoId];
@@ -212,9 +232,9 @@ class VentaModel {
                 p.codproducto,
                 p.descripcion AS producto,
                 SUM(dv.cantidad) AS cantidad_vendida,
-                p.precio_compra,
-                p.precio_venta,
-                SUM((p.precio_venta - p.precio_compra) * dv.cantidad) AS ganancia
+                AVG(dv.precio_compra_historico) AS precio_compra_historico,
+                AVG(dv.precio_venta_historico) AS precio_venta_historico,
+                SUM((dv.precio_venta_historico - dv.precio_compra_historico) * dv.cantidad) AS ganancia
             FROM 
                 detalle_venta dv
             INNER JOIN 
@@ -274,6 +294,42 @@ class VentaModel {
         $result = mysqli_fetch_assoc($query);
         return $result['tipo_pago'] ?? '';
     }
+
+    public function calcularGanancia() {
+        $query = mysqli_query($this->conexion, 
+            "SELECT SUM((dv.precio_venta_historico - dv.precio_compra_historico) * dv.cantidad) AS ganancia 
+             FROM detalle_venta dv");
+        
+        $result = mysqli_fetch_assoc($query);
+        return $result['ganancia'] ?? 0;
+    }
+    
+    public function calcularCantidadesVendidas() {
+        $query = mysqli_query($this->conexion, 
+            "SELECT SUM(cantidad) AS cantidad_vendida 
+             FROM detalle_venta");
+        
+        $result = mysqli_fetch_assoc($query);
+        return $result['cantidad_vendida'] ?? 0;
+    }
+    
+    public function calcularPrecioCompra() {
+        $query = mysqli_query($this->conexion, 
+            "SELECT SUM(precio_compra_historico) AS precio_compra 
+             FROM detalle_venta");
+        
+        $result = mysqli_fetch_assoc($query);
+        return $result['precio_compra'] ?? 0;
+    }
+    
+    public function calcularPrecioVenta() {
+        $query = mysqli_query($this->conexion, 
+            "SELECT SUM(precio_venta_historico) AS precio_venta 
+             FROM detalle_venta");
+        
+        $result = mysqli_fetch_assoc($query);
+        return $result['precio_venta'] ?? 0;
+    }    
 
 }
 ?>

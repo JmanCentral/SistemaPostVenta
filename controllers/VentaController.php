@@ -138,6 +138,23 @@ class VentaController {
         require_once "views/ganancias.php";
     }   
 
+    public function obtenerUtilidadesTotales() {
+        $permiso = "ventas";
+        $existe = $this->ventasModel->verificarPermisos($this->id_usuario, $permiso);
+
+        if (empty($existe) && $this->id_usuario != 1) { // Corregido $this->$id_user a $this->id_usuario
+            header("Location: index.php?action=denegado");
+            exit();
+        }
+
+        $cantidadVendidaTotal = $this->ventasModel->calcularCantidadesVendidas();
+        $precioCompraTotal = $this->ventasModel->calcularPrecioCompra();
+        $precioVentaTotal = $this->ventasModel->calcularPrecioVenta();
+        $gananciaTotal = $this->ventasModel->calcularGanancia();
+
+        require_once "views/gananciasTotales.php";
+    }
+
 
     public function generarPdf() {
         try {

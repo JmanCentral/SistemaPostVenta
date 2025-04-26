@@ -78,6 +78,11 @@
                                 <a href="index.php?action=editar_permisos&id=<?php echo $data['idusuario']; ?>" class="btn btn-info">
                                     <i class="fas fa-key"></i> Permisos
                                 </a>
+                                <!-- Botón para activar usuarios -->
+                            <?php else : ?>
+                                <a href="index.php?action=activar_usuario&id=<?php echo $data['idusuario']; ?>" class="btn btn-primary">
+                                    <i class="fas fa-check-circle"></i> Activar
+                                </a>
                             <?php endif; ?>
                         </td>
                     </tr>

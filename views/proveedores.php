@@ -36,15 +36,16 @@
                         <td><?php echo ($data['estado'] == 1) ? '<span class="badge badge-pill badge-success">Activo</span>' : '<span class="badge badge-pill badge-danger">Inactivo</span>'; ?></td>
                         <td>
                             <?php if ($data['estado'] == 1) : ?>
-                                <a href="index.php?action=editar_proveedor&id=<?php echo $data['idproveedor']; ?>" class="btn btn-success">
-                                    <i class="fas fa-edit"></i> Editar
+                                <a href="index.php?action=editar_proveedor&id=<?php echo $data['idproveedor']; ?>" class="btn btn-success" title="Editar">
+                                    <i class="fas fa-edit"></i> 
                                 </a>
-                                <a href="index.php?action=eliminar_proveedor&id=<?php echo $data['idproveedor']; ?>" class="btn btn-danger">
-                                    <i class="fas fa-trash"></i> Eliminar
+                                <a href="index.php?action=eliminar_proveedor&id=<?php echo $data['idproveedor']; ?>" class="btn btn-danger" title="Eliminar">
+                                    <i class="fas fa-trash"></i> 
                                 </a>
                                 <?php else : ?>
-                                <a href="index.php?action=activar_proveedor&id=<?php echo $data['idproveedor']; ?>" class="btn btn-primary">
-                                <i class="fas fa-check"></i> Activar
+                                <a href="index.php?action=activar_proveedor&id=<?php echo $data['idproveedor']; ?>" class="btn btn-primary" title="Activar">
+                                    <i class="fas fa-check-circle"></i>
+                                <i class="fas fa-check"></i> 
                                 </a>
                             <?php endif; ?>
                         </td>
