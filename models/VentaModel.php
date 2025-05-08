@@ -226,29 +226,31 @@ class VentaModel {
         }
     }
 
-    public function obtenerGanancias() {
-        $query = mysqli_query($this->conexion, "
-            SELECT 
-                p.codproducto,
-                p.descripcion AS producto,
-                SUM(dv.cantidad) AS cantidad_vendida,
-                AVG(dv.precio_compra_historico) AS precio_compra_historico,
-                AVG(dv.precio_venta_historico) AS precio_venta_historico,
-                SUM((dv.precio_venta_historico - dv.precio_compra_historico) * dv.cantidad) AS ganancia
-            FROM 
-                detalle_venta dv
-            INNER JOIN 
-                producto p ON dv.id_producto = p.codproducto
-            GROUP BY 
-                p.codproducto
-        ");
-        
-        $resultados = [];
-        while ($row = mysqli_fetch_assoc($query)) {
-            $resultados[] = $row;
-        }
-        return $resultados;
+   public function obtenerGanancias() {
+    $query = mysqli_query($this->conexion, "
+        SELECT 
+            p.codproducto,
+            p.descripcion AS producto,
+            SUM(dv.cantidad) AS cantidad_vendida,
+            AVG(dv.precio_compra_historico) AS precio_compra_historico,
+            AVG(dv.precio_venta_historico) AS precio_venta_historico,
+            SUM((dv.precio_venta_historico - dv.precio_compra_historico) * dv.cantidad) AS ganancia,
+            ROUND(((AVG(dv.precio_venta_historico) - AVG(dv.precio_compra_historico)) / AVG(dv.precio_venta_historico)) * 100, 2) AS margen_ganancia
+        FROM 
+            detalle_venta dv
+        INNER JOIN 
+            producto p ON dv.id_producto = p.codproducto
+        GROUP BY 
+            p.codproducto
+    ");
+
+    $resultados = [];
+    while ($row = mysqli_fetch_assoc($query)) {
+        $resultados[] = $row;
     }
+    return $resultados;
+}
+
 
     public function obtenerDatosEmpresa() {
         $query = mysqli_query($this->conexion, "SELECT * FROM configuracion");

@@ -7,9 +7,10 @@
                 <th>#</th>
                 <th>Producto</th>
                 <th>Cantidad Vendida</th>
-                <th>Precio Compra</th>
-                <th>Precio Venta</th>
+                <th>Precio Compra Promedio</th>
+                <th>Precio Venta Promedio</th>
                 <th>Ganancia</th>
+                <th>Margen de Ganancia</th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +26,12 @@
                             <i class="fas fa-dollar-sign"></i> <?= number_format($row['ganancia'], 2) ?>
                         </span>
                     </td>
+                    <td>
+                        <span style="color: green; font-weight: bold;">
+                            <i class="fas fa-dollar-sign"></i> <?= number_format($row['margen_ganancia'], 2) ?>
+                        </span>
+                    </td>
+
                 </tr>
             <?php endforeach; ?>
         </tbody>
