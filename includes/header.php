@@ -75,11 +75,6 @@ if (empty($_SESSION['active'])) {
                             Ganacias
                         </a>
 
-                        <a class="nav-link" href="index.php?action=gananciasTotales">
-                            <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave"></i></div>
-                            Ganacias Totales
-                        </a>
-
                         <a class="nav-link" href="index.php?action=productos">
                             <div class="sb-nav-link-icon"><i class="fab fa-product-hunt"></i></div>
                             Productos
