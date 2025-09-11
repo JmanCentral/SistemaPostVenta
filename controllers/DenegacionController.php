@@ -1,7 +1,8 @@
 <?php
 class DenegacionController {
     public function index() { 
-        include "views/permisos.php";
+        include_once "views/permisos.php";
     }
 }
 ?>
+            
