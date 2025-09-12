@@ -1,0 +1,6 @@
+projectKey=ProyectoPos
+serverUrl=http://localhost:9000
+serverVersion=25.9.0.112764
+dashboardUrl=http://localhost:9000/dashboard?id=ProyectoPos
+ceTaskId=6336796d-7c3e-49da-921d-787d3176f588
+ceTaskUrl=http://localhost:9000/api/ce/task?id=6336796d-7c3e-49da-921d-787d3176f588
