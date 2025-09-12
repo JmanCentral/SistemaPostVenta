@@ -1,11 +1,14 @@
 <?php
-// PermisoController.php
-require_once "models/PermisoModel.php";
+namespace App\Controllers;
+
+use App\Models\PermisoModel;
+use App\Core\View;
 
 class PermisoController {
     private $model;
 
     public function __construct() {
+        session_start();
         $this->model = new PermisoModel();
     }
 
@@ -20,25 +23,22 @@ class PermisoController {
             exit();
         }
 
-        // Obtener permisos asignados al usuario
-        $datos = $this->model->obtenerPermisosUsuario($id);
-
         // Procesar el formulario de permisos
         if (isset($_POST['permisos'])) {
-            $permisos = $_POST['permisos'];
+            $nuevosPermisos = $_POST['permisos'];
             $this->model->eliminarPermisosUsuario($id);
-            if (!empty($permisos)) {
-                $this->model->asignarPermisosUsuario($id, $permisos);
+            if (!empty($nuevosPermisos)) {
+                $this->model->asignarPermisosUsuario($id, $nuevosPermisos);
                 header("Location: index.php?action=editar_permisos&id=" . $id . "&m=si");
                 exit();
             }
         }
 
-        // Obtener todos los permisos disponibles
-        $permisos = $this->model->obtenerPermisos();
-
-        // Cargar la vista
-        require_once "views/permisos_view.php";
+        // Cargar la vista y pasarle los datos necesarios
+        View::render('permisos_view', [
+            'usuario' => $usuario,
+            'permisos_asignados' => $this->model->obtenerPermisosUsuario($id),
+            'permisos_disponibles' => $this->model->obtenerPermisos()
+        ]);
     }
 }
-?>

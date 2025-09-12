@@ -1,17 +1,18 @@
 <?php
-// Controller/PdfController.php
-require_once 'models/PdfModel.php';
+namespace App\Controllers;
+
+use App\Models\PdfModel;
 
 class PdfController {
     private $model;
-    
+
     public function __construct() {
         $this->model = new PdfModel();
     }
-    
+
     public function generarPdf($params = []) {
         // Validar parámetros
-        if (!isset($params['cl']) || !isset($params['v']) || 
+        if (!isset($params['cl']) || !isset($params['v']) ||
             $params['cl'] === 'undefined' || $params['v'] === 'undefined') {
             die('Parámetros incorrectos para generar el PDF');
         }
@@ -119,6 +120,3 @@ class PdfController {
         $pdf->Cell(0, 10, utf8_decode('Gracias por su compra.'), 0, 1, 'C');
     }
 }
-
-
-?>
