@@ -28,6 +28,7 @@ class FacturadorService {
         $this->pdf->detallesVenta = $datos['detalles'];
         $this->pdf->fechaVenta = $datos['fecha'];
         $this->pdf->tipoPago = $datos['tipoPago'];
+        $this->pdf->idVenta = $idVenta; // Añadimos el ID de la venta
         $this->pdf->totalVenta = $this->ventaModel->calcularTotalVenta($datos['detalles']);
         
         // Generar contenido

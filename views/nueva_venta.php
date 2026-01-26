@@ -88,12 +88,15 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-    <div class="form-group">
-        <label><i class="fas fa-calendar"></i> Fecha de Venta</label>
-        <input type="text" class="form-control" value="<?php echo date('d/m/Y'); ?>" disabled>
-        <input type="hidden" id="fecha_venta" name="fecha_venta" value="<?php echo date('Y-m-d'); ?>">
-    </div>
-</div>
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar"></i> Fecha de Venta</label>
+                            <?php
+                                date_default_timezone_set('America/Bogota');
+                            ?>
+                            <input type="text" class="form-control" value="<?php echo date('d/m/Y'); ?>" disabled>
+                            <input type="hidden" id="fecha_venta" name="fecha_venta" value="<?php echo date('Y-m-d H:i:s'); ?>">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,7 +107,6 @@
                         <th>Id</th>
                         <th>Descripción<th>Cantidad</th>
                         <th>Precio</th></th>
-                        
                         <th>Precio Total</th>
                         <th>Acción</th>
                     </tr>
