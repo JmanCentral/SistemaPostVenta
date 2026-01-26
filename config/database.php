@@ -1,4 +1,11 @@
 <?php
+<<<<<<< HEAD
+=======
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'puntoventa'); 
+>>>>>>> develop2
 
 const DB_HOST = '127.0.0.1';
 const DB_USER = 'root';
