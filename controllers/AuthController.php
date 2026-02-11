@@ -1,22 +1,14 @@
 <?php
-namespace App\Controllers;
-
-use App\Core\View;
-use App\Models\UserModel;
-
 session_start();
+require_once 'models/UserModel.php';
 
 class AuthController {
     
     public function login() {
-        // Si ya hay una sesión activa, redirigir al dashboard
-        if (isset($_SESSION['active']) && $_SESSION['active'] === true) {
-            header('location: index.php?action=dashboard');
-            exit();
-        }
+        // Si ya hay una sesión activa, redirigir al dashboar
 
         $alert = '';
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST)) {
+        if (!empty($_POST)) {
             if (empty($_POST['usuario']) || empty($_POST['clave'])) {
                 $alert = '<div class="alert alert-danger" role="alert">Ingrese su usuario y su clave</div>';
             } else {
@@ -35,7 +27,7 @@ class AuthController {
                     $_SESSION['user'] = $resultado['usuario'];
 
                     // Redirigir al dashboard
-                    header('location: index.php?action=dashboard');
+                    header('location: index.php?action=dashboard'); 
                     exit();
                 } else {
                     $alert = '<div class="alert alert-danger" role="alert">Usuario o Contraseña Incorrecta</div>';
@@ -45,6 +37,7 @@ class AuthController {
         }
 
         // Mostrar la vista de login
-        View::render('login', ['alert' => $alert]);
+        require_once 'views/login.php';
     }
 }
+?>
